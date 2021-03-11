@@ -4,13 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:c="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:wpfc="clr-namespace:WPF.Controls"
         xmlns:local="clr-namespace:ValheimMjod"
         mc:Ignorable="d"
         d:DataContext="{StaticResource MainWindowViewModelDummy}"
         Style="{StaticResource ChromeWindow}"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="597" Width="800">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -45,11 +45,12 @@
                 </DataTemplate>
 
                 <DataTemplate x:Key="SkillProp" DataType="{x:Type local:Prop}">
-                    <TextBlock Text="{Binding Value}"/>
+                    <wpfc:IntUpDown Value="{Binding Value}" MinValue="0" MaxValue="100" Height="18" MinWidth="64" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
                 </DataTemplate>
 
             </local:PropTemplateSelector.Templates>
         </local:PropTemplateSelector>
+
     </Window.Resources>
 
     <Grid>
@@ -57,7 +58,11 @@
             <RowDefinition Height="32"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding Title}" Margin="16,0" VerticalAlignment="Center"/>
+        <Image Source="header.png" Margin="-1,-1,1,1" HorizontalAlignment="Left"/>
+        <TextBlock Margin="134,2,0,0" VerticalAlignment="Center">
+            <Run Text="v."/>
+            <Run Text="{Binding Version, Mode=OneWay}"/>
+        </TextBlock>
         <TabControl Grid.Row="1"
                     ItemsSource="{Binding Characters}"
                     local:AutoSelect.AutoSelectFirstTab="True">
@@ -78,43 +83,57 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="8"/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="1">
-                            <ItemsControl Grid.Column="1" ItemsSource="{Binding MainProps}" Grid.IsSharedSizeScope="True">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type local:Prop}">
-                                        <Grid Margin="5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="label"/>
-                                                <ColumnDefinition Width="8"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Label}"/>
-                                            <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                        <StackPanel Grid.Column="1" Grid.IsSharedSizeScope="True">
 
-                            <ItemsControl Grid.Column="1" ItemsSource="{Binding SkillsProps}" Grid.IsSharedSizeScope="True">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type local:Prop}">
-                                        <Grid Margin="5">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="label"/>
-                                                <ColumnDefinition Width="8"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Label}"/>
-                                            <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                            <GroupBox Header="Main properties">
+                                <ItemsControl ItemsSource="{Binding MainProps}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type local:Prop}">
+                                            <Grid Margin="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="label"/>
+                                                    <ColumnDefinition Width="8"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding Label}"/>
+                                                <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </GroupBox>
+
+                            <GroupBox Header="Skills">
+                                <ItemsControl Grid.Column="1" ItemsSource="{Binding SkillsProps}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type local:Prop}">
+                                            <Grid Margin="5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="label"/>
+                                                    <ColumnDefinition Width="8"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" Text="{Binding Label}"/>
+                                                <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </GroupBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Grid.IsSharedSizeScope="True">
+                            <GroupBox Header="Changes">
+                                <DockPanel LastChildFill="True">
+                                    <StackPanel Orientation="Horizontal">
+                                        
+                                    </StackPanel>
+                                </DockPanel>
+                            </GroupBox>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-        <Button Grid.Row="1" Width="100" Height="20" Command="{Binding GetCharactersCommand}"/>
     </Grid>
 </Window>

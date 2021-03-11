@@ -19,7 +19,7 @@ namespace ValheimMjod
 
     public class MainWindowViewModel : BindingBase
     {
-        public string Title => "Valheim Character Trainer";
+        public System.Version Version => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         public ObservableCollection<CharacterViewModel> Characters { get; set; } = new ObservableCollection<CharacterViewModel>();
 
         public DelegateCommand LoadedCommand { get; }

@@ -1,3 +1,6 @@
 [submodule "WPF.MyFlatTheme"]
 	path = WPF.MyFlatTheme
 	url = ../WPF.MyFlatTheme.git
+[submodule "WPF.Controls.IntUpDown"]
+	path = WPF.Controls.IntUpDown
+	url = ../WPF.Controls.IntUpDown.git

@@ -9,11 +9,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WPF.MyFlatTheme", "WPF.MyFl
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ValheimDecompiled", "ValheimDecompiled\ValheimDecompiled.shproj", "{98DD7F5A-F33B-4A02-AB96-EE247450CF13}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WPF.Controls.IntUpDown", "WPF.Controls.IntUpDown\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown.shproj", "{E087D350-D4C7-45F3-89CC-55DC0F1EDE75}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		WPF.MyFlatTheme\WPF.MyFlatTheme.projitems*{5f01b0c2-39d0-4388-a06a-f595eb7011b4}*SharedItemsImports = 13
 		ValheimDecompiled\ValheimDecompiled.projitems*{98dd7f5a-f33b-4a02-ab96-ee247450cf13}*SharedItemsImports = 13
+		WPF.Controls.IntUpDown\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown.projitems*{ba62c465-b2f0-48a0-87ea-375a73ee3187}*SharedItemsImports = 4
 		WPF.MyFlatTheme\WPF.MyFlatTheme.projitems*{ba62c465-b2f0-48a0-87ea-375a73ee3187}*SharedItemsImports = 4
+		WPF.Controls.IntUpDown\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown.projitems*{e087d350-d4c7-45f3-89cc-55dc0f1ede75}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

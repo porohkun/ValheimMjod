@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Colors/DarkColors.xaml"/>
                 <ResourceDictionary Source="MyFlatTheme.xaml"/>
                 <ResourceDictionary Source="Controls/ChromeWindow.xaml"/>
+                <ResourceDictionary Source="IntUpDown.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <local:MainWindowViewModelDummy x:Key="MainWindowViewModelDummy"/>

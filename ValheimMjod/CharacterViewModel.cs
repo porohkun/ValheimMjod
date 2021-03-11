@@ -8,20 +8,26 @@ namespace ValheimMjod
     {
         public new string Name { get; } = "MyCharacter";
 
-        public CharacterViewModelDummy() : base(null, null)
+        public CharacterViewModelDummy() : base(new Player(), new PlayerProfile())
         {
             MainProps = new ObservableCollection<Prop>()
             {
                 new Prop("Change name", "StringProp", () => "MyCharacter", null),
                 new PropWithSelection("Gender", "SwitcherProp", () => 0, null, ("Male", 0), ("Female", 1))
             };
+            SkillsProps = new ObservableCollection<Prop>()
+            {
+                new Prop("Skill1", "SkillProp", () => 11, null),
+                new Prop("Skill2", "SkillProp", () => 11, null),
+                new Prop("Skill3", "SkillProp", () => 11, null),
+            };
         }
     }
 
     public class CharacterViewModel : BindingBase
     {
-        private Player _player;
-        private PlayerProfile _profile;
+        protected Player _player;
+        protected PlayerProfile _profile;
 
         public string Name
         {
@@ -37,11 +43,11 @@ namespace ValheimMjod
 
             MainProps = new ObservableCollection<Prop>()
             {
-                new Prop("Character name", "StringProp", () => _profile?.GetName(), v => _profile.SetName(v as string)),
-                new PropWithSelection("Gender", "SwitcherProp", () => _player?.ModelIndex, v => _player.ModelIndex = (int)v, ("Male", 0), ("Female", 1))
+                new Prop("Character name", "StringProp", () => _profile.GetName(), v => _profile.SetName(v as string)),
+                new PropWithSelection("Gender", "SwitcherProp", () => _player.ModelIndex, v => _player.ModelIndex = (int)v, ("Male", 0), ("Female", 1))
             };
             SkillsProps = new ObservableCollection<Prop>(_player.Skills.SkillData.Select(s => new Prop(s.Key.ToString(), "SkillProp",
-                () => s.Value.m_level,
+                () => (int)s.Value.m_level,
                 v => s.Value.m_level = (float)v)));
         }
     }
