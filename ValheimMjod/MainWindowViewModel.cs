@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using Valheim;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     public class ObservableCollectionDependencyObject : ObservableCollection<DependencyObject> { }
 

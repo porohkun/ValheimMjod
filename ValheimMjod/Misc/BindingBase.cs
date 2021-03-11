@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     public abstract class BindingBase : INotifyPropertyChanged
     {

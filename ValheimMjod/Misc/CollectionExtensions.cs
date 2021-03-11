@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     public static class CollectionExtensions
     {

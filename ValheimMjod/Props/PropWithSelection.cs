@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     public class PropWithSelection : Prop
     {

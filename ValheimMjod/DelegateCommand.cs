@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     public class DelegateCommand : ICommand
     {

@@ -2,7 +2,7 @@
 using System.Linq;
 using Valheim;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     public class CharacterViewModelDummy : CharacterViewModel
     {
@@ -37,10 +37,12 @@ namespace ValheimCharacterTrainer
 
             MainProps = new ObservableCollection<Prop>()
             {
-                new Prop("Change name", "StringProp", () => _profile?.GetName(), v => _profile.SetName(v as string)),
+                new Prop("Character name", "StringProp", () => _profile?.GetName(), v => _profile.SetName(v as string)),
                 new PropWithSelection("Gender", "SwitcherProp", () => _player?.ModelIndex, v => _player.ModelIndex = (int)v, ("Male", 0), ("Female", 1))
             };
-            SkillsProps = new ObservableCollection<Prop>(_player.Skills.SkillData.Select(s => new Prop(s.Key.ToString(), "SkillProp", () => $"{s.Value.m_accumulator}:{s.Value.m_level}", null)));
+            SkillsProps = new ObservableCollection<Prop>(_player.Skills.SkillData.Select(s => new Prop(s.Key.ToString(), "SkillProp",
+                () => s.Value.m_level,
+                v => s.Value.m_level = (float)v)));
         }
     }
 }

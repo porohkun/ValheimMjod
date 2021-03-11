@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     public static class LabelAttacher
     {

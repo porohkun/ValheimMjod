@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

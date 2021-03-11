@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace ValheimCharacterTrainer
+namespace ValheimMjod
 {
     public class PropTemplateSelector : DataTemplateSelector
     {

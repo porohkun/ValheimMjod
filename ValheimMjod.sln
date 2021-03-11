@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValheimCharacterTrainer", "ValheimCharacterTrainer\ValheimCharacterTrainer.csproj", "{BA62C465-B2F0-48A0-87EA-375A73EE3187}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValheimMjod", "ValheimMjod\ValheimMjod.csproj", "{BA62C465-B2F0-48A0-87EA-375A73EE3187}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "WPF.MyFlatTheme", "WPF.MyFlatTheme\WPF.MyFlatTheme.shproj", "{5F01B0C2-39D0-4388-A06A-F595EB7011B4}"
 EndProject
