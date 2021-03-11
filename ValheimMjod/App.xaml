@@ -13,6 +13,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <local:MainWindowViewModelDummy x:Key="MainWindowViewModelDummy"/>
+            <local:Vector3ToBrushConverter x:Key="Vector3ToBrushConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

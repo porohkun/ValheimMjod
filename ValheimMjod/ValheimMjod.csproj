@@ -72,6 +72,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CharacterViewModel.cs" />
+    <Compile Include="Converters\Vector3ToBrushConverter.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="Misc\AutoSelect.cs" />
     <Compile Include="Misc\BindingBase.cs" />

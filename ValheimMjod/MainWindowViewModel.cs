@@ -23,10 +23,12 @@ namespace ValheimMjod
         public ObservableCollection<CharacterViewModel> Characters { get; set; } = new ObservableCollection<CharacterViewModel>();
 
         public DelegateCommand LoadedCommand { get; }
+        public DelegateCommand<CharacterViewModel> SaveCommand { get; }
 
         public MainWindowViewModel()
         {
             LoadedCommand = new DelegateCommand(Loaded);
+            SaveCommand = new DelegateCommand<CharacterViewModel>(Save, CanSave);
         }
 
         private void Loaded()
@@ -46,8 +48,6 @@ namespace ValheimMjod
                     profile.LoadPlayerData(player);
                 else
                     return null;
-                //profile.SavePlayerData(player);
-                //profile.Save();
                 return new CharacterViewModel(player, profile);
             }));
             if (Characters.Count == 0)
@@ -55,6 +55,17 @@ namespace ValheimMjod
                 MessageBox.Show($"No character data files found in '{dir}'.", "ERROR");
                 Application.Current.Shutdown();
             }
+        }
+
+        private bool CanSave(CharacterViewModel arg)
+        {
+            return true;
+        }
+
+        private void Save(CharacterViewModel model)
+        {
+            model.Profile.SavePlayerData(model.Player);
+            model.Profile.Save();
         }
 
     }

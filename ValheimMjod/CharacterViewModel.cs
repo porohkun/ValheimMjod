@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using UnityEngine;
 using Valheim;
 
 namespace ValheimMjod
@@ -26,29 +27,71 @@ namespace ValheimMjod
 
     public class CharacterViewModel : BindingBase
     {
-        protected Player _player;
-        protected PlayerProfile _profile;
+        static (string, object)[] Hairs =
+        {
+            ("No hair", "HairNone"),
+            ("Braided 1", "Hair3"),
+            ("Braided 2", "Hair11"),
+            ("Braided 3", "Hair12"),
+            ("Braided 4", "Hair13"),
+            ("Long 1", "Hair6"),
+            ("Ponytail 1", "Hair1"),
+            ("Ponytail 2", "Hair2"),
+            ("Ponytail 3", "Hair4"),
+            ("Ponytail 4", "Hair7"),
+            ("Short 1", "Hair5"),
+            ("Short 2", "Hair8"),
+            ("Side Swept 1", "Hair9"),
+            ("Side Swept 2", "Hair10"),
+            ("Side Swept 3", "Hair14")
+        };
+
+        static (string, object)[] Beards =
+        {
+            ("No beard", "BeardNone"),
+            ("Braided 1", "Beard5"),
+            ("Braided 2", "Beard6"),
+            ("Braided 3", "Beard9"),
+            ("Braided 4", "Beard10"),
+            ("Long 1", "Beard1"),
+            ("Long 2", "Beard2"),
+            ("Short 1", "Beard3"),
+            ("Short 2", "Beard4"),
+            ("Short 3", "Beard7"),
+            ("Thick 1", "Beard8")
+        };
+
+        public Player Player { get; protected set; }
+        public PlayerProfile Profile { get; protected set; }
 
         public string Name
         {
-            get => _profile.GetName();
+            get => Profile.GetName();
         }
         public ObservableCollection<Prop> MainProps { get; protected set; }
         public ObservableCollection<Prop> SkillsProps { get; protected set; }
+        public ObservableCollection<Prop> VisualProps { get; protected set; }
 
         public CharacterViewModel(Player player, PlayerProfile profile)
         {
-            _player = player;
-            _profile = profile;
+            Player = player;
+            Profile = profile;
 
             MainProps = new ObservableCollection<Prop>()
             {
-                new Prop("Character name", "StringProp", () => _profile.GetName(), v => _profile.SetName(v as string)),
-                new PropWithSelection("Gender", "SwitcherProp", () => _player.ModelIndex, v => _player.ModelIndex = (int)v, ("Male", 0), ("Female", 1))
+                new Prop("Character name", "StringProp", () => Profile.GetName(), v => Profile.SetName(v as string)),
+                new PropWithSelection("Gender", "SwitcherProp", () => Player.ModelIndex, v => Player.ModelIndex = (int)v, ("Male", 0), ("Female", 1))
             };
-            SkillsProps = new ObservableCollection<Prop>(_player.Skills.SkillData.Select(s => new Prop(s.Key.ToString(), "SkillProp",
+            SkillsProps = new ObservableCollection<Prop>(Player.Skills.SkillData.Select(s => new Prop(s.Key.ToString(), "SkillProp",
                 () => (int)s.Value.m_level,
-                v => s.Value.m_level = (float)v)));
+                v => s.Value.m_level = (float)(int)v)));
+            VisualProps = new ObservableCollection<Prop>()
+            {
+                new Prop("Skin color", "ColorProp", () => Player.m_skinColor, v => Player.m_skinColor = (Vector3)v),
+                new Prop("Hair color", "ColorProp", () => Player.m_hairColor, v => Player.m_hairColor = (Vector3)v),
+                new PropWithSelection("Hair", "DropDownProp", () => Player.m_hairItem, v => Player.m_hairItem = (string)v, Hairs),
+                new PropWithSelection("Beard", "DropDownProp", () => Player.m_beardItem, v => Player.m_beardItem = (string)v, Beards)
+            };
         }
     }
 }

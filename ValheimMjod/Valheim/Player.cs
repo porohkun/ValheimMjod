@@ -32,10 +32,10 @@ namespace Valheim
         private float m_timeSinceDeath = 999999f;
         private string m_guardianPower = "";
         private float m_guardianPowerCooldown;
-        protected string m_beardItem = "";
-        protected string m_hairItem = "";
-        private Vector3 m_skinColor = Vector3.one;
-        private Vector3 m_hairColor = Vector3.one;
+        public string m_beardItem = "";
+        public string m_hairItem = "";
+        public Vector3 m_skinColor = Vector3.one;
+        public Vector3 m_hairColor = Vector3.one;
         public int ModelIndex { get; set; }
         public Skills Skills { get; } = new Skills();
         protected Inventory m_inventory = new Inventory("Inventory", 8, 4);

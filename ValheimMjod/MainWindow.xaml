@@ -10,7 +10,7 @@
         d:DataContext="{StaticResource MainWindowViewModelDummy}"
         Style="{StaticResource ChromeWindow}"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="597" Width="800">
+        Title="MainWindow" Height="597" Width="500">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -48,8 +48,39 @@
                     <wpfc:IntUpDown Value="{Binding Value}" MinValue="0" MaxValue="100" Height="18" MinWidth="64" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
                 </DataTemplate>
 
+                <DataTemplate x:Key="ColorProp" DataType="{x:Type local:Prop}">
+                    <Border Background="{Binding Value, Converter={StaticResource Vector3ToBrushConverter}}"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="DropDownProp" DataType="{x:Type local:PropWithSelection}">
+                    <ComboBox ItemsSource="{Binding Variants}" SelectedItem="{Binding SelectedVariant}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Item1}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </DataTemplate>
+
             </local:PropTemplateSelector.Templates>
         </local:PropTemplateSelector>
+        <Style TargetType="{x:Type ItemsControl}" x:Key="PropsListStyle">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type local:Prop}">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="label"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding Label}"/>
+                            <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Window.Resources>
 
@@ -83,52 +114,30 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="8"/>
                         </Grid.ColumnDefinitions>
+                        
                         <StackPanel Grid.Column="1" Grid.IsSharedSizeScope="True">
-
                             <GroupBox Header="Main properties">
-                                <ItemsControl ItemsSource="{Binding MainProps}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type local:Prop}">
-                                            <Grid Margin="5">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="label"/>
-                                                    <ColumnDefinition Width="8"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="{Binding Label}"/>
-                                                <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <ItemsControl ItemsSource="{Binding MainProps}" Style="{StaticResource PropsListStyle}"/>
                             </GroupBox>
-
                             <GroupBox Header="Skills">
-                                <ItemsControl Grid.Column="1" ItemsSource="{Binding SkillsProps}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate DataType="{x:Type local:Prop}">
-                                            <Grid Margin="5">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" MinWidth="60" SharedSizeGroup="label"/>
-                                                    <ColumnDefinition Width="8"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <TextBlock Grid.Column="0" Text="{Binding Label}"/>
-                                                <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <ItemsControl ItemsSource="{Binding SkillsProps}" Style="{StaticResource PropsListStyle}"/>
                             </GroupBox>
                         </StackPanel>
 
                         <StackPanel Grid.Column="3" Grid.IsSharedSizeScope="True">
                             <GroupBox Header="Changes">
                                 <DockPanel LastChildFill="True">
-                                    <StackPanel Orientation="Horizontal">
-                                        
+                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="2">
+                                        <Button Content="Save" Margin="4,0" Command="{Binding SaveCommand, Source=DataContext}" CommandParameter="{Binding}"/>
+                                        <Button Content="Clear"/>
                                     </StackPanel>
+                                    <TreeView MinHeight="200" Margin="4">
+
+                                    </TreeView>
                                 </DockPanel>
+                            </GroupBox>
+                            <GroupBox Header="Visual">
+                                <ItemsControl ItemsSource="{Binding VisualProps}" Style="{StaticResource PropsListStyle}"/>
                             </GroupBox>
                         </StackPanel>
                     </Grid>
