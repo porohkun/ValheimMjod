@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>98dd7f5a-f33b-4a02-ab96-ee247450cf13</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>ValheimDecompiled</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Character.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Heightmap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Humanoid.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Inventory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ItemDrop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PlayerProfile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Skills.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Version.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ZDO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ZDOID.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ZNetView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ZPackage.cs" />
+  </ItemGroup>
+</Project>

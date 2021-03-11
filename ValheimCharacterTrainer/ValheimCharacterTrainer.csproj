@@ -83,12 +83,9 @@
     <Compile Include="UnityEngine\Vector2i.cs" />
     <Compile Include="UnityEngine\Vector3.cs" />
     <Compile Include="Valheim\Biome.cs" />
-    <Compile Include="Valheim\Character.cs" />
-    <Compile Include="Valheim\Humanoid.cs" />
     <Compile Include="Valheim\Inventory.cs" />
     <Compile Include="Valheim\ItemData.cs" />
     <Compile Include="Valheim\Player.cs" />
-    <Compile Include="Valheim\Player_.cs" />
     <Compile Include="Valheim\PlayerProfile.cs" />
     <Compile Include="Valheim\Skills.cs" />
     <Compile Include="Valheim\Version.cs" />

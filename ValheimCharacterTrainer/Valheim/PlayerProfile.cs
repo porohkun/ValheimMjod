@@ -61,7 +61,7 @@ namespace Valheim
             }
             else
                 throw new Exception();
-                //player.GiveDefaultItems();
+            //player.GiveDefaultItems();
         }
 
         //public void SaveLogoutPoint()
@@ -74,8 +74,8 @@ namespace Valheim
         private bool SavePlayerToDisk()
         {
             string str1 = this.m_filename;
-            string str2 =  this.m_filename + ".old";
-            string str3 =  this.m_filename + ".new";
+            string str2 = this.m_filename + ".old";
+            string str3 = this.m_filename + ".new";
             ZPackage zpackage = new ZPackage();
             zpackage.Write(Version.m_playerVersion);
             zpackage.Write(this.m_playerStats.m_kills);
@@ -186,7 +186,7 @@ namespace Valheim
 
         private ZPackage LoadPlayerDataFromDisk()
         {
-            string path = this.m_filename ;
+            string path = this.m_filename;
             FileStream fileStream;
             try
             {
@@ -214,87 +214,6 @@ namespace Valheim
             return new ZPackage(data);
         }
 
-        //public void SetLogoutPoint(Vector3 point)
-        //{
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_haveLogoutPoint = true;
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_logoutPoint = point;
-        //}
-
-        //public void SetDeathPoint(Vector3 point)
-        //{
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_haveDeathPoint = true;
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_deathPoint = point;
-        //}
-
-        //public void SetMapData(byte[] data)
-        //{
-        //    long worldUid = ZNet.instance.GetWorldUID();
-        //    if (worldUid == 0L)
-        //        return;
-        //    this.GetWorldData(worldUid).m_mapData = data;
-        //}
-
-        //public byte[] GetMapData()
-        //{
-        //    return this.GetWorldData(ZNet.instance.GetWorldUID()).m_mapData;
-        //}
-
-        //public void ClearLoguoutPoint()
-        //{
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_haveLogoutPoint = false;
-        //}
-
-        //public bool HaveLogoutPoint()
-        //{
-        //    return this.GetWorldData(ZNet.instance.GetWorldUID()).m_haveLogoutPoint;
-        //}
-
-        //public Vector3 GetLogoutPoint()
-        //{
-        //    return this.GetWorldData(ZNet.instance.GetWorldUID()).m_logoutPoint;
-        //}
-
-        //public bool HaveDeathPoint()
-        //{
-        //    return this.GetWorldData(ZNet.instance.GetWorldUID()).m_haveDeathPoint;
-        //}
-
-        //public Vector3 GetDeathPoint()
-        //{
-        //    return this.GetWorldData(ZNet.instance.GetWorldUID()).m_deathPoint;
-        //}
-
-        //public void SetCustomSpawnPoint(Vector3 point)
-        //{
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_haveCustomSpawnPoint = true;
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_spawnPoint = point;
-        //}
-
-        //public Vector3 GetCustomSpawnPoint()
-        //{
-        //    return this.GetWorldData(ZNet.instance.GetWorldUID()).m_spawnPoint;
-        //}
-
-        //public bool HaveCustomSpawnPoint()
-        //{
-        //    return this.GetWorldData(ZNet.instance.GetWorldUID()).m_haveCustomSpawnPoint;
-        //}
-
-        //public void ClearCustomSpawnPoint()
-        //{
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_haveCustomSpawnPoint = false;
-        //}
-
-        //public void SetHomePoint(Vector3 point)
-        //{
-        //    this.GetWorldData(ZNet.instance.GetWorldUID()).m_homePoint = point;
-        //}
-
-        //public Vector3 GetHomePoint()
-        //{
-        //    return this.GetWorldData(ZNet.instance.GetWorldUID()).m_homePoint;
-        //}
-
         public void SetName(string name)
         {
             this.m_playerName = name;
@@ -310,60 +229,10 @@ namespace Valheim
             return this.m_playerID;
         }
 
-        //public static List<PlayerProfile> GetAllPlayerProfiles()
-        //{
-        //    string[] strArray;
-        //    try
-        //    {
-        //        strArray = Directory.GetFiles(Utils.GetSaveDataPath() + "/characters", "*.fch");
-        //    }
-        //    catch
-        //    {
-        //        strArray = new string[0];
-        //    }
-        //    List<PlayerProfile> playerProfileList = new List<PlayerProfile>();
-        //    foreach (string path in strArray)
-        //    {
-        //        string withoutExtension = Path.GetFileNameWithoutExtension(path);
-        //        PlayerProfile playerProfile = new PlayerProfile(withoutExtension);
-        //        if (!playerProfile.Load())
-        //            ZLog.Log((object)("Failed to load " + withoutExtension));
-        //        else
-        //            playerProfileList.Add(playerProfile);
-        //    }
-        //    return playerProfileList;
-        //}
-
-        //public static void RemoveProfile(string name)
-        //{
-        //    try
-        //    {
-        //        File.Delete(Utils.GetSaveDataPath() + "/characters/" + name + ".fch");
-        //    }
-        //    catch
-        //    {
-        //    }
-        //}
-
-        //public static bool HaveProfile(string name)
-        //{
-        //    return File.Exists(Utils.GetSaveDataPath() + "/characters/" + name + ".fch");
-        //}
-
         public string GetFilename()
         {
             return this.m_filename;
         }
-
-        //private PlayerProfile.WorldPlayerData GetWorldData(long worldUID)
-        //{
-        //    PlayerProfile.WorldPlayerData worldPlayerData1;
-        //    if (this.m_worldData.TryGetValue(worldUID, out worldPlayerData1))
-        //        return worldPlayerData1;
-        //    PlayerProfile.WorldPlayerData worldPlayerData2 = new PlayerProfile.WorldPlayerData();
-        //    this.m_worldData.Add(worldUID, worldPlayerData2);
-        //    return worldPlayerData2;
-        //}
 
         private class WorldPlayerData
         {
