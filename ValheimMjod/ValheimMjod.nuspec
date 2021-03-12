@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ValheimMjod</id>
+    <version>0.0.0.0</version>
+    <!-- version will be replaced by MSBuild -->
+    <title>Valheim Mjöð</title>
+    <authors>Porohkun</authors>
+    <description>Valheim teach us: drink mead - and you characteristics will change. But we need moar. Use truly nordic mjöð - and ALL you characteristics can be changed forewer (including inventory).</description>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright © Porohkun 2021</copyright>
+    <dependencies />
+  </metadata>
+  <files>
+    <file src="*.*" target="lib\net45\" exclude="*.pdb;*.nupkg;*.vshost.*"/>
+  </files>
+</package>

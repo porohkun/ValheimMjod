@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace ValheimMjod
 {
@@ -13,5 +7,13 @@ namespace ValheimMjod
     /// </summary>
     public partial class App : Application
     {
+        Updater _updater;
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            var window = new MainWindow();
+            window.Show();
+            _updater = new Updater();
+            base.OnStartup(e);
+        }
     }
 }
