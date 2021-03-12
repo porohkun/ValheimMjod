@@ -12,7 +12,7 @@
         d:DataContext="{StaticResource MainWindowViewModelDummy}"
         Style="{StaticResource ChromeWindow}"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="800" Width="640">
+        Title="MainWindow" Height="700" Width="640">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -89,8 +89,8 @@
                                     </TextBlock>
                                 </Border>
                                 <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
-                                    <Button Content="Edit" DockPanel.Dock="Left"/>
-                                    <Button DockPanel.Dock="Right" Style="{StaticResource PathButton}"
+                                    <Button Content="Edit" DockPanel.Dock="Left" IsEnabled="False"/>
+                                    <Button DockPanel.Dock="Right" Style="{StaticResource PathButton}" IsEnabled="False"
                                             misc:PathDecorator.PathStyle="{StaticResource Trash}"/>
                                     <Grid/>
                                 </DockPanel>
@@ -112,6 +112,7 @@
                             </DockPanel>
                             <Button Style="{StaticResource PathButton}" misc:PathDecorator.PathStyle="{StaticResource Plus}"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    IsEnabled="False"
                                     Visibility="{Binding Value[exists].Value, Converter={StaticResource InvertedBoolToVisibilityConverter}}"/>
                         </Grid>
                     </Border>
@@ -186,16 +187,17 @@
                                     <GroupBox Header="Changes">
                                         <DockPanel LastChildFill="True">
                                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="2">
-                                                <Button Content="Save" Margin="4,0" Command="{Binding SaveCommand, Source=DataContext}" CommandParameter="{Binding}"/>
-                                                <Button Content="Clear"/>
+                                                <Button Content="Save" Margin="4,0" Command="{Binding DataContext.SaveCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
+                                                <Button Content="Clear" IsEnabled="False"/>
                                             </StackPanel>
-                                            <TreeView MinHeight="200" Margin="4">
+                                            <TreeView MinHeight="200" Margin="4" IsEnabled="False">
 
                                             </TreeView>
                                         </DockPanel>
                                     </GroupBox>
                                 </DockPanel>
                             </Grid>
+                            
                             <GroupBox Header="Inventory">
                                 <DockPanel>
                                     <TextBlock DockPanel.Dock="Top" Foreground="Yellow">

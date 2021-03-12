@@ -23,7 +23,7 @@ namespace Valheim
         public void Save(ZPackage pkg)
         {
             pkg.Write(this.currentVersion);
-            pkg.Write(this.m_inventory.Count);
+            pkg.Write(this.m_inventory.Count(i => !string.IsNullOrWhiteSpace(i.m_name)));
             foreach (ItemData itemData in this.m_inventory.Where(i => !string.IsNullOrWhiteSpace(i.m_name)))
             {
                 pkg.Write(itemData.m_name);
