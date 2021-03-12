@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:wpfc="clr-namespace:WPF.Controls"
+        xmlns:misc="clr-namespace:WPF.Misc"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ValheimMjod"
         mc:Ignorable="d"
         d:DataContext="{StaticResource MainWindowViewModelDummy}"
         Style="{StaticResource ChromeWindow}"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="597" Width="500">
+        Title="MainWindow" Height="800" Width="640">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -49,7 +51,18 @@
                 </DataTemplate>
 
                 <DataTemplate x:Key="ColorProp" DataType="{x:Type local:Prop}">
-                    <Border Background="{Binding Value, Converter={StaticResource Vector3ToBrushConverter}}"/>
+                    <Border Background="{Binding Value, Converter={StaticResource Vector3ToBrushConverter}}">
+                        <xctk:ColorPicker SelectedColor="{Binding Value, Converter={StaticResource Vector3ToColorConverter}}"
+                                          Background="{StaticResource BgrMainBrush}"
+                                          DropDownBackground="{StaticResource BgrMainBrush}"
+                                          HeaderBackground="{StaticResource BgrMainBrush}"
+                                          TabBackground="{StaticResource BgrMainBrush}"
+                                          BorderThickness="0"
+                                          DropDownBorderBrush="{StaticResource BorderMainBrush}"
+                                          HeaderForeground="{StaticResource TextMainBrush}"
+                                          TabForeground="{StaticResource TextMainBrush}"
+                                          />
+                    </Border>
                 </DataTemplate>
 
                 <DataTemplate x:Key="DropDownProp" DataType="{x:Type local:PropWithSelection}">
@@ -60,6 +73,48 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
+                </DataTemplate>
+
+                <DataTemplate x:Key="InventoryProp" DataType="{x:Type local:PropWithPosition}">
+                    <Border BorderBrush="{StaticResource BorderDisabledBrush}" BorderThickness="1" Margin="0,0,-1,-1" Padding="2">
+                        <Grid>
+                            <DockPanel LastChildFill="True" Visibility="{Binding Value[exists].Value, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Border DockPanel.Dock="Top"
+                                        BorderBrush="{StaticResource BorderDisabledBrush}" BorderThickness="1"
+                                        Background="{StaticResource BgrAltDarkBrush}"
+                                        Margin="-3" Padding="2">
+                                    <TextBlock TextWrapping="Wrap">
+                                        <Run Text="{Binding Value[name].Value, Converter={StaticResource StringCamelCaseConverter}}"/>
+                                        <Run Text="{Binding Value[quality].Value, StringFormat=#{0}}"/>
+                                    </TextBlock>
+                                </Border>
+                                <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+                                    <Button Content="Edit" DockPanel.Dock="Left"/>
+                                    <Button DockPanel.Dock="Right" Style="{StaticResource PathButton}"
+                                            misc:PathDecorator.PathStyle="{StaticResource Trash}"/>
+                                    <Grid/>
+                                </DockPanel>
+                                <Grid DockPanel.Dock="Bottom">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Vertical" Grid.Column="0">
+                                        <TextBlock Text="Durab"/>
+                                        <TextBox Text="{Binding Value[durability].Value}"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Vertical" Grid.Column="1">
+                                        <TextBlock Text="Count"/>
+                                        <TextBox Text="{Binding Value[stack].Value}"/>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid/>
+                            </DockPanel>
+                            <Button Style="{StaticResource PathButton}" misc:PathDecorator.PathStyle="{StaticResource Plus}"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Visibility="{Binding Value[exists].Value, Converter={StaticResource InvertedBoolToVisibilityConverter}}"/>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
 
             </local:PropTemplateSelector.Templates>
@@ -105,42 +160,87 @@
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
-                <DataTemplate >
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="8"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="4"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="8"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <StackPanel Grid.Column="1" Grid.IsSharedSizeScope="True">
-                            <GroupBox Header="Main properties">
-                                <ItemsControl ItemsSource="{Binding MainProps}" Style="{StaticResource PropsListStyle}"/>
-                            </GroupBox>
-                            <GroupBox Header="Skills">
-                                <ItemsControl ItemsSource="{Binding SkillsProps}" Style="{StaticResource PropsListStyle}"/>
-                            </GroupBox>
-                        </StackPanel>
+                <DataTemplate>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="Vertical" Margin="6">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="4"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="3" Grid.IsSharedSizeScope="True">
-                            <GroupBox Header="Changes">
-                                <DockPanel LastChildFill="True">
-                                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="2">
-                                        <Button Content="Save" Margin="4,0" Command="{Binding SaveCommand, Source=DataContext}" CommandParameter="{Binding}"/>
-                                        <Button Content="Clear"/>
-                                    </StackPanel>
-                                    <TreeView MinHeight="200" Margin="4">
+                                <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
+                                    <GroupBox Header="Main properties">
+                                        <ItemsControl ItemsSource="{Binding MainProps}" Style="{StaticResource PropsListStyle}"/>
+                                    </GroupBox>
+                                    <GroupBox Header="Skills">
+                                        <ItemsControl ItemsSource="{Binding SkillsProps}" Style="{StaticResource PropsListStyle}"/>
+                                    </GroupBox>
+                                </StackPanel>
 
-                                    </TreeView>
+                                <DockPanel Grid.Column="2" Grid.IsSharedSizeScope="True" LastChildFill="True">
+                                    <GroupBox Header="Visual" DockPanel.Dock="Bottom">
+                                        <ItemsControl ItemsSource="{Binding VisualProps}" Style="{StaticResource PropsListStyle}"/>
+                                    </GroupBox>
+                                    <GroupBox Header="Changes">
+                                        <DockPanel LastChildFill="True">
+                                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="2">
+                                                <Button Content="Save" Margin="4,0" Command="{Binding SaveCommand, Source=DataContext}" CommandParameter="{Binding}"/>
+                                                <Button Content="Clear"/>
+                                            </StackPanel>
+                                            <TreeView MinHeight="200" Margin="4">
+
+                                            </TreeView>
+                                        </DockPanel>
+                                    </GroupBox>
+                                </DockPanel>
+                            </Grid>
+                            <GroupBox Header="Inventory">
+                                <DockPanel>
+                                    <TextBlock DockPanel.Dock="Top" Foreground="Yellow">
+                                        <Path Style="{StaticResource Warning}" Fill="Yellow"/>
+                                        <Run Text="Warning! Items specifications not yet grabbed from the game. Use inventory section at your own risk."/>
+                                    </TextBlock>
+                                    <ItemsControl ItemsSource="{Binding ItemsProps}" Margin="-6,4,-5,-5">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <Grid Grid.IsSharedSizeScope="True">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition SharedSizeGroup="invRow" MinHeight="64" Height="Auto"/>
+                                                        <RowDefinition SharedSizeGroup="invRow" Height="Auto"/>
+                                                        <RowDefinition SharedSizeGroup="invRow" Height="Auto"/>
+                                                        <RowDefinition SharedSizeGroup="invRow" Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                </Grid>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemContainerStyle>
+                                            <Style>
+                                                <Setter Property="Grid.Column" Value="{Binding X}"/>
+                                                <Setter Property="Grid.Row" Value="{Binding Y}"/>
+                                            </Style>
+                                        </ItemsControl.ItemContainerStyle>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type local:PropWithPosition}">
+                                                <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </DockPanel>
                             </GroupBox>
-                            <GroupBox Header="Visual">
-                                <ItemsControl ItemsSource="{Binding VisualProps}" Style="{StaticResource PropsListStyle}"/>
-                            </GroupBox>
                         </StackPanel>
-                    </Grid>
+                    </ScrollViewer>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>

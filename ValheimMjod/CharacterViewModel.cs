@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 using Valheim;
@@ -9,7 +10,21 @@ namespace ValheimMjod
     {
         public new string Name { get; } = "MyCharacter";
 
-        public CharacterViewModelDummy() : base(new Player(), new PlayerProfile())
+        public CharacterViewModelDummy() : base(new Player()
+        {
+            m_inventory = new Inventory("", 8, 4)
+            {
+                m_inventory = new List<ItemData>
+                {
+                    new ItemData() { m_gridPos = new Vector2i(0, 0), m_name = "Item1" },
+                    new ItemData() { m_gridPos = new Vector2i(1, 0), m_name = "" },
+                    new ItemData() { m_gridPos = new Vector2i(4, 1), m_name = "Item2" },
+                    new ItemData() { m_gridPos = new Vector2i(5, 1), m_name = "Item3" },
+                    new ItemData() { m_gridPos = new Vector2i(1, 2), m_name = "Item4" },
+                    new ItemData() { m_gridPos = new Vector2i(7, 3), m_name = "Item5" }
+                }
+            }
+        }, new PlayerProfile())
         {
             MainProps = new ObservableCollection<Prop>()
             {
@@ -71,6 +86,7 @@ namespace ValheimMjod
         public ObservableCollection<Prop> MainProps { get; protected set; }
         public ObservableCollection<Prop> SkillsProps { get; protected set; }
         public ObservableCollection<Prop> VisualProps { get; protected set; }
+        public ObservableCollection<Prop> ItemsProps { get; protected set; }
 
         public CharacterViewModel(Player player, PlayerProfile profile)
         {
@@ -92,6 +108,30 @@ namespace ValheimMjod
                 new PropWithSelection("Hair", "DropDownProp", () => Player.m_hairItem, v => Player.m_hairItem = (string)v, Hairs),
                 new PropWithSelection("Beard", "DropDownProp", () => Player.m_beardItem, v => Player.m_beardItem = (string)v, Beards)
             };
+            //ItemsProps = new ObservableCollection<Prop>(Player.m_inventory.m_inventory.Select(i => new PropWithPosition($"{i.m_gridPos}", "InventoryProp",
+            //    () => i.m_name,
+            //    v => i.m_name = (string)v,
+            //    i.m_gridPos.x, i.m_gridPos.y)));
+            ItemsProps = new ObservableCollection<Prop>(Player.m_inventory.m_inventory.Select(i => new PropWithPosition($"{i.m_gridPos}", "InventoryProp",
+                () =>
+                {
+                    var result = new Dictionary<string, Prop>();
+                    result.Add("exists", new Prop("", "", () => !string.IsNullOrWhiteSpace(i.m_name), null));
+                    result.Add("name", new Prop("", "", () => i.m_name, v => i.m_name = (string)v));
+                    result.Add("quality", new Prop("", "", () => i.m_quality, v => i.m_quality = StringToInt(v, i.m_quality)));
+                    result.Add("stack", new Prop("", "", () => i.m_stack, v => i.m_stack = StringToInt(v, i.m_stack)));
+                    result.Add("durability", new Prop("", "", () => (int)i.m_durability, v => i.m_durability = StringToInt(v, (int)i.m_durability)));
+                    return result;
+                },
+                null,
+                i.m_gridPos.x, i.m_gridPos.y)));
+        }
+
+        static int StringToInt(object value, int defaultValue)
+        {
+            if (!(value is string stringValue))
+                return defaultValue;
+            return int.TryParse(stringValue, out int result) ? result : defaultValue;
         }
     }
 }

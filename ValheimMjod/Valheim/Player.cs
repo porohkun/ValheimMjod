@@ -38,7 +38,7 @@ namespace Valheim
         public Vector3 m_hairColor = Vector3.one;
         public int ModelIndex { get; set; }
         public Skills Skills { get; } = new Skills();
-        protected Inventory m_inventory = new Inventory("Inventory", 8, 4);
+        public Inventory m_inventory = new Inventory("Inventory", 8, 4);
         public List<Player.Food> m_foods = new List<Player.Food>();
         private HashSet<string> m_knownRecipes = new HashSet<string>();
         private Dictionary<string, int> m_knownStations = new Dictionary<string, int>();

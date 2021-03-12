@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Valheim
@@ -7,7 +8,7 @@ namespace Valheim
     {
         private int currentVersion = 103;
         private string m_name = "";
-        private List<ItemData> m_inventory = new List<ItemData>();
+        public List<ItemData> m_inventory = new List<ItemData>();
         private int m_width = 4;
         private int m_height = 4;
 
@@ -23,7 +24,7 @@ namespace Valheim
         {
             pkg.Write(this.currentVersion);
             pkg.Write(this.m_inventory.Count);
-            foreach (ItemData itemData in this.m_inventory)
+            foreach (ItemData itemData in this.m_inventory.Where(i => !string.IsNullOrWhiteSpace(i.m_name)))
             {
                 pkg.Write(itemData.m_name);
                 pkg.Write(itemData.m_stack);
@@ -76,6 +77,11 @@ namespace Valheim
                         m_crafterName = crafterName
                     });
             }
+
+            for (int x = 0; x < m_width; x++)
+                for (int y = 0; y < m_height; y++)
+                    if (!m_inventory.Any(i => i.m_gridPos == new Vector2i(x, y)))
+                        m_inventory.Add(new ItemData() { m_gridPos = new Vector2i(x, y) });
         }
     }
 }
