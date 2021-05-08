@@ -5,7 +5,7 @@ namespace Valheim
     internal class Version
     {
         public static int m_major = 0;
-        public static int m_minor = 147;
+        public static int m_minor = 150;
         public static int m_patch = 3;
         public static int m_playerVersion = 33;
         public static int[] m_compatiblePlayerVersions = new int[6]
@@ -17,9 +17,10 @@ namespace Valheim
     28,
     27
         };
-        public static int m_worldVersion = 26;
-        public static int[] m_compatibleWorldVersions = new int[16]
+        public static int m_worldVersion = 27;
+        public static int[] m_compatibleWorldVersions = new int[17]
         {
+    26,
     25,
     24,
     23,
