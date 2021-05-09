@@ -122,13 +122,18 @@
     <Compile Include="CharacterViewModel.cs" />
     <None Include="ValheimMjod.nuspec" />
     <Compile Include="Converters\StringCamelCaseConverter.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\Vector3ToColorConverter.cs" />
     <Compile Include="Converters\Vector3ToBrushConverter.cs" />
     <Compile Include="DelegateCommand.cs" />
+    <Compile Include="MainWindowViewModel.EditingItem.cs" />
     <Compile Include="Misc\AutoSelect.cs" />
     <Compile Include="Misc\BindingBase.cs" />
     <Compile Include="Misc\CollectionExtensions.cs" />
+    <Compile Include="Misc\ICommand.cs" />
+    <Compile Include="Misc\InjectableCommand.cs" />
     <Compile Include="Misc\LabelAttacher.cs" />
+    <Compile Include="Misc\TypeExtensions.cs" />
     <Compile Include="Props\Prop.cs" />
     <Compile Include="Props\PropTemplateSelector.cs" />
     <Compile Include="Props\PropWithPosition.cs" />
@@ -201,6 +206,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="header.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="..\WPF.MyFlatTheme\WPF.MyFlatTheme.projitems" Label="Shared" />
   <Import Project="..\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown.projitems" Label="Shared" />

@@ -19,6 +19,7 @@
             <local:StringCamelCaseConverter x:Key="StringCamelCaseConverter"/>
             <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <xctk:VisibilityToBoolConverter Inverted="True" Not="True" x:Key="InvertedBoolToVisibilityConverter"/>
+            <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
