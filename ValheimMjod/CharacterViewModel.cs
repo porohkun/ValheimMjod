@@ -118,6 +118,8 @@ namespace ValheimMjod
                     result.Add("quality", new Prop("Quality", "ItemProp", () => i.m_quality, v => { i.m_quality = StringToInt(v, i.m_quality); RefreshItemsProps(); }));
                     result.Add("stack", new Prop("Count", "ItemProp", () => i.m_stack, v => { i.m_stack = StringToInt(v, i.m_stack); RefreshItemsProps(); }));
                     result.Add("durability", new Prop("Durability", "ItemProp", () => (int)i.m_durability, v => { i.m_durability = StringToInt(v, (int)i.m_durability); RefreshItemsProps(); }));
+                    result.Add("crafter_id", new Prop("Crafter ID", "StringProp", () => (int)i.m_crafterID, v => { i.m_crafterID = StringToInt(v, (int)i.m_crafterID); RefreshItemsProps(); }));
+                    result.Add("crafter_name", new Prop("Crafter Name", "StringProp", () => i.m_crafterName, v => { i.m_crafterName = (string)v; RefreshItemsProps(); }));
                     return result;
                 },
                 null,

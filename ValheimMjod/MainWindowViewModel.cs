@@ -83,17 +83,20 @@ namespace ValheimMjod
         private void EditItem(Prop item)
         {
             EditingItem = item;
+            if (EditingItemName == null)
+                SelectedItem = "";
         }
 
         private void EndEditItem()
         {
             EditingItem = null;
+            SelectedItem = null;
         }
 
         private void RemoveItem(Prop item)
         {
             var props = (Dictionary<string, Prop>)item.Value;
-            props["name"].Value = string.Empty;
+            props["name"].Value = null;
         }
 
     }

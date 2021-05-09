@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace ValheimMjod
 {
     public partial class MainWindowViewModel
     {
-        public (string, string[])[] ItemCategories { get; } = new (string, string[])[]
+        private Tuple<string, string[]>[] _itemsWithCategories { get; } = new Tuple<string, string[]>[]
         {
-            ("Items", new string[]
+            new Tuple<string, string[]>("Items", new string[]
             {
                 "Amber",
                 "AmberPearl",
@@ -87,7 +90,7 @@ namespace ValheimMjod
                 "SerpentMeat",
                 "YagluthDrop",
             }),
-            ("Armor", new string[]
+            new Tuple<string, string[]>("Armor", new string[]
             {
                 "ArmorBronzeChest",
                 "ArmorBronzeLegs",
@@ -120,7 +123,7 @@ namespace ValheimMjod
                 "HelmetTrollLeather",
                 "HelmetYule",
             }),
-            ("Ammo", new string[]
+            new Tuple<string, string[]>("Ammo", new string[]
             {
                 "ArrowBronze",
                 "ArrowFire",
@@ -133,7 +136,7 @@ namespace ValheimMjod
                 "ArrowSilver",
                 "ArrowWood",
             }),
-            ("Weapons", new string[]
+            new Tuple<string, string[]>("Weapons", new string[]
             {
                 "AtgeirBlackmetal",
                 "AtgeirBronze",
@@ -179,7 +182,7 @@ namespace ValheimMjod
                 "Club",
                 "Torch",
             }),
-            ("Tools", new string[]
+            new Tuple<string, string[]>("Tools", new string[]
             {
                 "AxeBronze",
                 "AxeFlint",
@@ -196,13 +199,13 @@ namespace ValheimMjod
                 "Hoe",
                 "SpearChitin",
             }),
-            ("Trinkets", new string[]
+            new Tuple<string, string[]>("Trinkets", new string[]
             {
                 "BeltStrength",
                 "Wishbone",
                 "HelmetDverger",
             }),
-            ("Enemies", new string[]
+            new Tuple<string, string[]>("Enemies", new string[]
             {
                 "Blob",
                 "BlobElite",
@@ -249,7 +252,7 @@ namespace ValheimMjod
                 "Wolf_cub",
                 "Wraith",
             }),
-            ("Bosses", new string[]
+            new Tuple<string, string[]>("Bosses", new string[]
             {
                 "Eikthyr",
                 "gd_king",
@@ -257,7 +260,7 @@ namespace ValheimMjod
                 "Dragon",
                 "GoblinKing",
             }),
-            ("Food", new string[]
+            new Tuple<string, string[]>("Food", new string[]
             {
                 "Bread",
                 "BloodPudding",
@@ -283,7 +286,7 @@ namespace ValheimMjod
                 "Turnip",
                 "TurnipStew",
             }),
-            ("Mead", new string[]
+            new Tuple<string, string[]>("Mead", new string[]
             {
                 "MeadBaseFrostResist",
                 "MeadBaseHealthMedium",
@@ -300,7 +303,7 @@ namespace ValheimMjod
                 "MeadStaminaMinor",
                 "MeadTasty",
             }),
-            ("Vehicle", new string[]
+            new Tuple<string, string[]>("Vehicle", new string[]
             {
                 "Cart",
                 "Raft",
@@ -308,7 +311,7 @@ namespace ValheimMjod
                 "VikingShip",
                 "Trailership",
             }),
-            ("Trophies", new string[]
+            new Tuple<string, string[]>("Trophies", new string[]
             {
                 "TrophyBlob",
                 "TrophyBoar",
@@ -343,7 +346,7 @@ namespace ValheimMjod
                 "TrophyWolf",
                 "TrophyWraith",
             }),
-            ("Misc/Unsorted", new string[]
+            new Tuple<string, string[]>("Misc/Unsorted", new string[]
             {
                 "GlowingMushroom",
                 "ancientbarkspear_projectile",
@@ -838,9 +841,15 @@ namespace ValheimMjod
             set
             {
                 if (SetProperty(ref _editingItem, value))
+                {
+                    RaisePropertyChanged(nameof(EditingItemName));
                     RaisePropertyChanged(nameof(OtherEditingItemProps));
+                }
             }
         }
+
+        public string EditingItemName => (EditingItem?.Value as Dictionary<string, Prop>)?["name"].Value as string ?? null;
+
 
         public Prop[] OtherEditingItemProps
         {
@@ -853,19 +862,62 @@ namespace ValheimMjod
                 {
                     props["quality"],
                     props["stack"],
-                    props["durability"]
+                    props["durability"],
+                    props["crafter_id"],
+                    props["crafter_name"]
                 };
             }
         }
 
+        public IEnumerable<string> ItemCategories => _itemsWithCategories.Select(c => c.Item1);
+        public ObservableCollection<string> ItemsInSelectedCategory { get; } = new ObservableCollection<string>();
+
+        private string _selectedCategory;
+        public string SelectedCategory
+        {
+            get => _selectedCategory;
+            set
+            {
+                if (SetProperty(ref _selectedCategory, value))
+                {
+                    ItemsInSelectedCategory.Clear();
+                    foreach (var item in _itemsWithCategories.FirstOrDefault(c => c.Item1 == value)?.Item2 ?? new string[0])
+                        ItemsInSelectedCategory.Add(item);
+                }
+            }
+        }
+
+        private string _selectedItem = null;
+        public string SelectedItem
+        {
+            get => _selectedItem;
+            set => SetProperty(ref _selectedItem, value);
+        }
+
+
+
         private void ChangeItem()
         {
-            EditingItem = null;
+            var props = (Dictionary<string, Prop>)EditingItem.Value;
+            var name = props["name"].Value as string;
+            SelectedCategory = _itemsWithCategories.FirstOrDefault(c => c.Item2.Contains(name))?.Item1 ?? null;
+            SelectedItem = name ?? "";
         }
 
         private void EndChangeItem()
         {
-            EditingItem = null;
+            var props = (Dictionary<string, Prop>)EditingItem.Value;
+            props["name"].Value = SelectedItem;
+            SelectedItem = null;
+            if (EditingItemName != null)
+            {
+                props["quality"].Value = 1;
+                props["stack"].Value = 1;
+                props["durability"].Value = 1;
+                props["crafter_name"].Value = "Cheater";
+            }
+            RaisePropertyChanged(nameof(EditingItemName));
+            RaisePropertyChanged(nameof(OtherEditingItemProps));
         }
 
     }

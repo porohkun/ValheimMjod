@@ -271,7 +271,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Border Grid.Column="1" Grid.Row="1" BorderThickness="1" MinWidth="160" MinHeight="100"
+            <Border Grid.Column="1" Grid.Row="1" BorderThickness="1" MinWidth="200"
                     Background="{StaticResource BgrMainBrush}"
                     BorderBrush="{StaticResource BorderMainBrush}">
                 <StackPanel Orientation="Vertical">
@@ -317,19 +317,25 @@
                         <Border BorderBrush="{StaticResource BorderMainBrush}" BorderThickness="1">
                             <StackPanel Orientation="Vertical" Background="{StaticResource BgrAltDarkBrush}">
                                 <DockPanel LastChildFill="True">
-                                    <TextBlock DockPanel.Dock="Left" Text="{Binding EditingItem.Value[name].Value, Converter={StaticResource StringCamelCaseConverter}}" VerticalAlignment="Center"/>
+                                    <TextBlock DockPanel.Dock="Left" Text="{Binding EditingItemName, Converter={StaticResource StringCamelCaseConverter}}" VerticalAlignment="Center"/>
                                     <Button DockPanel.Dock="Right" Content="Change" Padding="2" Command="{Binding ChangeItemCommand}"/>
                                     <Control MinWidth="40"/>
                                 </DockPanel>
-                                <Grid>
+                                <Grid Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibilityConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <ComboBox Grid.Column="0" Background="{StaticResource BgrAltDarkBrush}"/>
-                                    <ComboBox Grid.Column="1" Background="{StaticResource BgrAltDarkBrush}"/>
+                                    <ComboBox Grid.Column="0" MinWidth="40" Background="{StaticResource BgrAltDarkBrush}"
+                                              ItemsSource="{Binding ItemCategories}"
+                                              SelectedItem="{Binding SelectedCategory}"/>
+                                    <ComboBox Grid.Column="1" MinWidth="40" Background="{StaticResource BgrAltDarkBrush}"
+                                              ItemsSource="{Binding ItemsInSelectedCategory}"
+                                              SelectedItem="{Binding SelectedItem}"/>
                                 </Grid>
-                                <Button Content="OK" Padding="12,2" HorizontalAlignment="Center" Command="{Binding EndChangeItemCommand}"/>
+                                <Button Content="OK" Padding="12,2" HorizontalAlignment="Center"
+                                        Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"
+                                        Command="{Binding EndChangeItemCommand}"/>
                             </StackPanel>
                         </Border>
                         <ItemsControl ItemsSource="{Binding OtherEditingItemProps}" Style="{StaticResource PropsListStyle}"/>
