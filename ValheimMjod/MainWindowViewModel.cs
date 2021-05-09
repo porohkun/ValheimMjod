@@ -19,7 +19,7 @@ namespace ValheimMjod
         }
     }
 
-    public partial class MainWindowViewModel : BindingBase
+    public partial class MainWindowViewModel : BindableBase
     {
         public System.Version Version => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         public ObservableCollection<CharacterViewModel> Characters { get; set; } = new ObservableCollection<CharacterViewModel>();

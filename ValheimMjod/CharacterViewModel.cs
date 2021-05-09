@@ -41,7 +41,7 @@ namespace ValheimMjod
         }
     }
 
-    public class CharacterViewModel : BindingBase
+    public class CharacterViewModel : BindableBase
     {
         static (string, object)[] Hairs =
         {

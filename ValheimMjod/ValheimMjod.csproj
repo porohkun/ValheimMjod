@@ -65,6 +65,9 @@
     <Reference Include="Mono.Cecil.Rocks, Version=0.11.2.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.11.2\lib\net40\Mono.Cecil.Rocks.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NuGet.Squirrel, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\squirrel.windows.2.0.1\lib\Net45\NuGet.Squirrel.dll</HintPath>
     </Reference>
@@ -128,16 +131,22 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="MainWindowViewModel.EditingItem.cs" />
     <Compile Include="Misc\AutoSelect.cs" />
-    <Compile Include="Misc\BindingBase.cs" />
+    <Compile Include="Misc\BindableBase.cs" />
     <Compile Include="Misc\CollectionExtensions.cs" />
     <Compile Include="Misc\ICommand.cs" />
     <Compile Include="Misc\InjectableCommand.cs" />
     <Compile Include="Misc\LabelAttacher.cs" />
+    <Compile Include="Misc\PlayFab.cs" />
     <Compile Include="Misc\TypeExtensions.cs" />
     <Compile Include="Props\Prop.cs" />
     <Compile Include="Props\PropTemplateSelector.cs" />
     <Compile Include="Props\PropWithPosition.cs" />
     <Compile Include="Props\PropWithSelection.cs" />
+    <Compile Include="Settings\MainSettings.cs" />
+    <Compile Include="Settings\MainWindowSettings.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\SettingsPartWithNotifier.cs" />
+    <Compile Include="Settings\WindowStateSettings.cs" />
     <Compile Include="UnityEngine\Mathf.cs" />
     <Compile Include="UnityEngine\Quaternion.cs" />
     <Compile Include="UnityEngine\Vector2.cs" />
@@ -209,6 +218,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="whatsnew.txt" />
   </ItemGroup>
   <Import Project="..\WPF.MyFlatTheme\WPF.MyFlatTheme.projitems" Label="Shared" />
   <Import Project="..\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown.projitems" Label="Shared" />
