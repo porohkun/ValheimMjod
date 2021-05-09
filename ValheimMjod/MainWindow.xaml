@@ -50,6 +50,10 @@
                     <wpfc:IntUpDown Value="{Binding Value}" MinValue="0" MaxValue="100" Height="18" MinWidth="64" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
                 </DataTemplate>
 
+                <DataTemplate x:Key="ItemProp" DataType="{x:Type local:Prop}">
+                    <wpfc:IntUpDown Value="{Binding Value}" MinValue="1" Height="18" MinWidth="64" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
+                </DataTemplate>
+
                 <DataTemplate x:Key="ColorProp" DataType="{x:Type local:Prop}">
                     <Border Background="{Binding Value, Converter={StaticResource Vector3ToBrushConverter}}">
                         <xctk:ColorPicker SelectedColor="{Binding Value, Converter={StaticResource Vector3ToColorConverter}}"
@@ -89,8 +93,12 @@
                                     </TextBlock>
                                 </Border>
                                 <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
-                                    <Button Content="Edit" DockPanel.Dock="Left" IsEnabled="False"/>
-                                    <Button DockPanel.Dock="Right" Style="{StaticResource PathButton}" IsEnabled="False"
+                                    <Button Content="Edit" DockPanel.Dock="Left"
+                                            Command="{Binding DataContext.EditItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding}"/>
+                                    <Button DockPanel.Dock="Right" Style="{StaticResource PathButton}"
+                                            Command="{Binding DataContext.RemoveItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                            CommandParameter="{Binding}"
                                             misc:PathDecorator.PathStyle="{StaticResource Trash}"/>
                                     <Grid/>
                                 </DockPanel>
@@ -112,7 +120,8 @@
                             </DockPanel>
                             <Button Style="{StaticResource PathButton}" misc:PathDecorator.PathStyle="{StaticResource Plus}"
                                     HorizontalAlignment="Center" VerticalAlignment="Center"
-                                    IsEnabled="False"
+                                    Command="{Binding DataContext.EditItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                                    CommandParameter="{Binding}"
                                     Visibility="{Binding Value[exists].Value, Converter={StaticResource InvertedBoolToVisibilityConverter}}"/>
                         </Grid>
                     </Border>
@@ -172,18 +181,22 @@
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0" Grid.IsSharedSizeScope="True">
+                                    <!-- Main properties -->
                                     <GroupBox Header="Main properties">
                                         <ItemsControl ItemsSource="{Binding MainProps}" Style="{StaticResource PropsListStyle}"/>
                                     </GroupBox>
+                                    <!-- Skills -->
                                     <GroupBox Header="Skills">
                                         <ItemsControl ItemsSource="{Binding SkillsProps}" Style="{StaticResource PropsListStyle}"/>
                                     </GroupBox>
                                 </StackPanel>
 
                                 <DockPanel Grid.Column="2" Grid.IsSharedSizeScope="True" LastChildFill="True">
+                                    <!-- Visual -->
                                     <GroupBox Header="Visual" DockPanel.Dock="Bottom">
                                         <ItemsControl ItemsSource="{Binding VisualProps}" Style="{StaticResource PropsListStyle}"/>
                                     </GroupBox>
+                                    <!-- Changes -->
                                     <GroupBox Header="Changes">
                                         <DockPanel LastChildFill="True">
                                             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Margin="2">
@@ -197,7 +210,8 @@
                                     </GroupBox>
                                 </DockPanel>
                             </Grid>
-                            
+
+                            <!-- Inventory -->
                             <GroupBox Header="Inventory">
                                 <DockPanel>
                                     <TextBlock DockPanel.Dock="Top" Foreground="Yellow">
@@ -246,5 +260,83 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
+        <Grid Grid.RowSpan="2" Background="#7F000000" Visibility="{Binding EditingItem, Converter={StaticResource NullToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Column="1" Grid.Row="1" BorderThickness="1" MinWidth="160" MinHeight="100"
+                    Background="{StaticResource BgrMainBrush}"
+                    BorderBrush="{StaticResource BorderMainBrush}">
+                <StackPanel Orientation="Vertical">
+                    <DockPanel Height="30" LastChildFill="True" Margin="6,0,0,0">
+                        <TextBlock DockPanel.Dock="Left" Text="Edit item" VerticalAlignment="Center"/>
+                        <Button DockPanel.Dock="Right" Width="30" Command="{Binding EndEditItemCommand}">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Foreground" Value="{StaticResource TextMainBrush}"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="SnapsToDevicePixels" Value="True" />
+                                    <Setter Property="Padding" Value="0" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border BorderThickness="0"
+                                                        Background="{TemplateBinding Background}"
+                                                        Width="{TemplateBinding Width}"
+                                                        Height="{TemplateBinding Height}">
+                                                    <Path Data="M 10,10 20,20 M 10,20 20,10"
+                                                          StrokeThickness="1"
+                                                          Stroke="{TemplateBinding Foreground}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource WinCloseButtonFocusedBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource WinCloseButtonPressedBrush}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Control/>
+                    </DockPanel>
+                    <StackPanel Orientation="Vertical" Margin="8">
+                        <Border BorderBrush="{StaticResource BorderMainBrush}" BorderThickness="1">
+                            <StackPanel Orientation="Vertical" Background="{StaticResource BgrAltDarkBrush}">
+                                <DockPanel LastChildFill="True">
+                                    <TextBlock DockPanel.Dock="Left" Text="{Binding EditingItem.Value[name].Value, Converter={StaticResource StringCamelCaseConverter}}" VerticalAlignment="Center"/>
+                                    <Button DockPanel.Dock="Right" Content="Change" Padding="2" Command="{Binding ChangeItemCommand}"/>
+                                    <Control MinWidth="40"/>
+                                </DockPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox Grid.Column="0" Background="{StaticResource BgrAltDarkBrush}"/>
+                                    <ComboBox Grid.Column="1" Background="{StaticResource BgrAltDarkBrush}"/>
+                                </Grid>
+                                <Button Content="OK" Padding="12,2" HorizontalAlignment="Center" Command="{Binding EndChangeItemCommand}"/>
+                            </StackPanel>
+                        </Border>
+                        <ItemsControl ItemsSource="{Binding OtherEditingItemProps}" Style="{StaticResource PropsListStyle}"/>
+                        <Button Content="OK" Padding="12,2" HorizontalAlignment="Center" Command="{Binding EndEditItemCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

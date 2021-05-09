@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Data;
 using UnityEngine;
 using Valheim;
 
@@ -108,27 +109,30 @@ namespace ValheimMjod
                 new PropWithSelection("Hair", "DropDownProp", () => Player.m_hairItem, v => Player.m_hairItem = (string)v, Hairs),
                 new PropWithSelection("Beard", "DropDownProp", () => Player.m_beardItem, v => Player.m_beardItem = (string)v, Beards)
             };
-            //ItemsProps = new ObservableCollection<Prop>(Player.m_inventory.m_inventory.Select(i => new PropWithPosition($"{i.m_gridPos}", "InventoryProp",
-            //    () => i.m_name,
-            //    v => i.m_name = (string)v,
-            //    i.m_gridPos.x, i.m_gridPos.y)));
             ItemsProps = new ObservableCollection<Prop>(Player.m_inventory.m_inventory.Select(i => new PropWithPosition($"{i.m_gridPos}", "InventoryProp",
                 () =>
                 {
                     var result = new Dictionary<string, Prop>();
                     result.Add("exists", new Prop("", "", () => !string.IsNullOrWhiteSpace(i.m_name), null));
-                    result.Add("name", new Prop("", "", () => i.m_name, v => i.m_name = (string)v));
-                    result.Add("quality", new Prop("", "", () => i.m_quality, v => i.m_quality = StringToInt(v, i.m_quality)));
-                    result.Add("stack", new Prop("", "", () => i.m_stack, v => i.m_stack = StringToInt(v, i.m_stack)));
-                    result.Add("durability", new Prop("", "", () => (int)i.m_durability, v => i.m_durability = StringToInt(v, (int)i.m_durability)));
+                    result.Add("name", new Prop("", "", () => i.m_name, v => { i.m_name = (string)v; RefreshItemsProps(); }));
+                    result.Add("quality", new Prop("Quality", "ItemProp", () => i.m_quality, v => { i.m_quality = StringToInt(v, i.m_quality); RefreshItemsProps(); }));
+                    result.Add("stack", new Prop("Count", "ItemProp", () => i.m_stack, v => { i.m_stack = StringToInt(v, i.m_stack); RefreshItemsProps(); }));
+                    result.Add("durability", new Prop("Durability", "ItemProp", () => (int)i.m_durability, v => { i.m_durability = StringToInt(v, (int)i.m_durability); RefreshItemsProps(); }));
                     return result;
                 },
                 null,
                 i.m_gridPos.x, i.m_gridPos.y)));
         }
 
+        void RefreshItemsProps()
+        {
+            CollectionViewSource.GetDefaultView(ItemsProps).Refresh();
+        }
+
         static int StringToInt(object value, int defaultValue)
         {
+            if (value is int intValue)
+                return intValue;
             if (!(value is string stringValue))
                 return defaultValue;
             return int.TryParse(stringValue, out int result) ? result : defaultValue;

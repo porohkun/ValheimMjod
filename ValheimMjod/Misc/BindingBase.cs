@@ -9,7 +9,7 @@ namespace ValheimMjod
 
         public bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            if (!storage.Equals(value))
+            if (storage == null || !storage.Equals(value))
             {
                 storage = value;
                 RaisePropertyChanged(propertyName);
@@ -20,7 +20,7 @@ namespace ValheimMjod
 
         public void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
