@@ -1,0 +1,17 @@
+﻿
+  Whats new in version 0.5.0:
+
+- Adding new items and removing exists
+- Changing items type, quality and crafter data
+- Added program settings for saving window size
+
+===============================================
+
+  Whats new in version 0.5.0:
+
+- Loading and saving characters data
+- Modifying skills values
+- Modifying characters names and gender
+- Modifying skin and hair colors
+- Modifying hair and beard style
+- Modifying durability and count parameters of exist items

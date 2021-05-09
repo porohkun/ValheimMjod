@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 
 namespace ValheimMjod
 {
@@ -14,6 +15,15 @@ namespace ValheimMjod
             window.Show();
             _updater = new Updater();
             base.OnStartup(e);
+
+            if (Settings.Instance.Main.FirstLaunch)
+            {
+                Settings.Instance.Main.FirstLaunch = false;
+                Process fileopener = new Process();
+                fileopener.StartInfo.FileName = "explorer";
+                fileopener.StartInfo.Arguments = "\"" + Settings.AppPath + "whatsnew.txt\"";
+                fileopener.Start();
+            }
         }
     }
 }

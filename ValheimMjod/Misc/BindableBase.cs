@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace ValheimMjod
 {
-    public abstract class BindingBase : INotifyPropertyChanged
+    public abstract class BindableBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

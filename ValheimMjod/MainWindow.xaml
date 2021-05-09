@@ -11,8 +11,11 @@
         mc:Ignorable="d"
         d:DataContext="{StaticResource MainWindowViewModelDummy}"
         Style="{StaticResource ChromeWindow}"
+        Width="{Binding Source={x:Static local:Settings.Instance}, Path=MainWindow.Width, Mode=TwoWay}" MinWidth="420"
+        Height="{Binding Source={x:Static local:Settings.Instance}, Path=MainWindow.Height, Mode=TwoWay}" MinHeight="450"
+        WindowState="{Binding Source={x:Static local:Settings.Instance}, Path=MainWindow.State, Mode=TwoWay}"
         WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="700" Width="640">
+        Title="Valheim Mjöð">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
