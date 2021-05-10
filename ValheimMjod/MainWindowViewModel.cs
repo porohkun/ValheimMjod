@@ -15,7 +15,8 @@ namespace ValheimMjod
         public MainWindowViewModelDummy()
         {
             Characters.Add(new CharacterViewModelDummy());
-            EditingItem = Characters[0].ItemsProps[0];
+            //EditingItem = Characters[0].ItemsProps[0];
+            AboutWindowVisible = true;
         }
     }
 
@@ -24,6 +25,13 @@ namespace ValheimMjod
         public System.Version Version => System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
         public ObservableCollection<CharacterViewModel> Characters { get; set; } = new ObservableCollection<CharacterViewModel>();
 
+        private bool _aboutWindowVisible;
+        public bool AboutWindowVisible
+        {
+            get => _aboutWindowVisible;
+            set => SetProperty(ref _aboutWindowVisible, value);
+        }
+
         public DelegateCommand LoadedCommand { get; }
         public DelegateCommand<CharacterViewModel> SaveCommand { get; }
         public DelegateCommand<Prop> EditItemCommand { get; }
@@ -31,6 +39,7 @@ namespace ValheimMjod
         public DelegateCommand<Prop> RemoveItemCommand { get; }
         public DelegateCommand ChangeItemCommand { get; }
         public DelegateCommand EndChangeItemCommand { get; }
+        public DelegateCommand<bool> ShowAboutCommand { get; }
 
         public MainWindowViewModel()
         {
@@ -41,6 +50,7 @@ namespace ValheimMjod
             RemoveItemCommand = new DelegateCommand<Prop>(RemoveItem);
             ChangeItemCommand = new DelegateCommand(ChangeItem);
             EndChangeItemCommand = new DelegateCommand(EndChangeItem);
+            ShowAboutCommand = new DelegateCommand<bool>(ShowAbout);
         }
 
         private void Loaded()
@@ -99,5 +109,9 @@ namespace ValheimMjod
             props["name"].Value = null;
         }
 
+        private void ShowAbout(bool show)
+        {
+            AboutWindowVisible = show;
+        }
     }
 }

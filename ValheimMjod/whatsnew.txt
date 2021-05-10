@@ -1,9 +1,10 @@
 ﻿
   Whats new in version 0.5.0:
 
-- Adding new items and removing exists
+- Adding new items to inventory and removing exists
 - Changing items type, quality and crafter data
 - Added program settings for saving window size
+- About page and license information
 
 ===============================================
 

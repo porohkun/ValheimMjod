@@ -8,6 +8,8 @@
         xmlns:misc="clr-namespace:WPF.Misc"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:ValheimMjod"
+        xmlns:c="clr-namespace:ValheimMjod.Commands"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         d:DataContext="{StaticResource MainWindowViewModelDummy}"
         Style="{StaticResource ChromeWindow}"
@@ -25,6 +27,9 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.Resources>
+        <c:HyperlinkCommand x:Key="HyperlinkCommand"/>
+        <s:Boolean x:Key="True">True</s:Boolean>
+        <s:Boolean x:Key="False">False</s:Boolean>
         <local:PropTemplateSelector x:Key="PropTemplateSelector">
             <local:PropTemplateSelector.Templates>
 
@@ -149,7 +154,36 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <Style TargetType="{x:Type Button}" x:Key="ClosePopupButton">
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMainBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderThickness="0"
+                                Background="{TemplateBinding Background}"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}">
+                            <Path Data="M 10,10 20,20 M 10,20 20,10"
+                                  StrokeThickness="1"
+                                  Stroke="{TemplateBinding Foreground}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource WinCloseButtonFocusedBrush}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{StaticResource WinCloseButtonPressedBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -162,6 +196,16 @@
             <Run Text="v."/>
             <Run Text="{Binding Version, Mode=OneWay}"/>
         </TextBlock>
+        <Button Content="About"
+                Command="{Binding ShowAboutCommand}"
+                CommandParameter="{StaticResource True}"
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Padding="8,4"
+                Margin="0,0,144,0"/>
+        
+        
         <TabControl Grid.Row="1"
                     ItemsSource="{Binding Characters}"
                     local:AutoSelect.AutoSelectFirstTab="True">
@@ -263,6 +307,8 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
+        
+        
         <Grid Grid.RowSpan="2" Background="#7F000000" Visibility="{Binding EditingItem, Converter={StaticResource NullToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -280,40 +326,7 @@
                 <StackPanel Orientation="Vertical">
                     <DockPanel Height="30" LastChildFill="True" Margin="6,0,0,0">
                         <TextBlock DockPanel.Dock="Left" Text="Edit item" VerticalAlignment="Center"/>
-                        <Button DockPanel.Dock="Right" Width="30" Command="{Binding EndEditItemCommand}">
-                            <Button.Style>
-                                <Style TargetType="{x:Type Button}">
-                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="Foreground" Value="{StaticResource TextMainBrush}"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="SnapsToDevicePixels" Value="True" />
-                                    <Setter Property="Padding" Value="0" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type Button}">
-                                                <Border BorderThickness="0"
-                                                        Background="{TemplateBinding Background}"
-                                                        Width="{TemplateBinding Width}"
-                                                        Height="{TemplateBinding Height}">
-                                                    <Path Data="M 10,10 20,20 M 10,20 20,10"
-                                                          StrokeThickness="1"
-                                                          Stroke="{TemplateBinding Foreground}"/>
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource WinCloseButtonFocusedBrush}" />
-                                        </Trigger>
-                                        <Trigger Property="IsPressed" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource WinCloseButtonPressedBrush}" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                        <Button DockPanel.Dock="Right" Width="30" Command="{Binding EndEditItemCommand}" Style="{StaticResource ClosePopupButton}"/>
                         <Control/>
                     </DockPanel>
                     <StackPanel Orientation="Vertical" Margin="8">
@@ -347,5 +360,101 @@
                 </StackPanel>
             </Border>
         </Grid>
+
+
+        <Grid Grid.RowSpan="2" Background="#7F000000" Visibility="{Binding AboutWindowVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="60"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="60"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="60"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" MinHeight="60"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Column="1" Grid.Row="1" BorderThickness="1" MinWidth="200"
+                    Background="{StaticResource BgrMainBrush}"
+                    BorderBrush="{StaticResource BorderMainBrush}">
+                <StackPanel Orientation="Vertical">
+                    <DockPanel Height="30" LastChildFill="True" Margin="6,0,0,0">
+                        <TextBlock DockPanel.Dock="Left" Text="About" VerticalAlignment="Center"/>
+                        <Button DockPanel.Dock="Right" Width="30" Command="{Binding ShowAboutCommand}" CommandParameter="{StaticResource False}" Style="{StaticResource ClosePopupButton}"/>
+                        <Control/>
+                    </DockPanel>
+                    <ScrollViewer HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                        <DockPanel local:MarginSetter.Margin="4" HorizontalAlignment="Left">
+                            <TextBlock DockPanel.Dock="Top">
+                                <Run FontSize="30" Text="Valheim Mjöð"/><LineBreak/>
+                                <Run Text="Version"/>
+                                <Run Text="{Binding Source={x:Static local:Settings.Instance}, Path=Version, Mode=OneWay}"/>
+                            </TextBlock>
+                            <Grid DockPanel.Dock="Top">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="400"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Margin="0" Grid.Column="0">
+                                    <Run Text="ScreenSlicer (C) 2021 porohkun"/><LineBreak/>
+                                    <Run Text="This program comes with ABSOLUTELY NO WARRANTY;"/><LineBreak/>
+                                    <Run Text="This is free software, and you are welcome to redistribute it"/><LineBreak/>
+                                    <Run Text="under certain conditions; See"/>
+                                    <Hyperlink Command="{DynamicResource HyperlinkCommand}" CommandParameter="https://raw.githubusercontent.com/porohkun/ValheimMjod/master/LICENSE">full license text.</Hyperlink>
+                                </TextBlock>
+                                <TextBlock Margin="0" Grid.Column="1">
+                                    <Run Text="Project page"/><LineBreak/>
+                                    <Hyperlink Command="{DynamicResource HyperlinkCommand}" CommandParameter="https://github.com/porohkun/ValheimMjod">https://github.com/porohkun/ValheimMjod</Hyperlink><LineBreak/>
+                                    <Run Text="Contact"/><LineBreak/>
+                                    <Hyperlink Command="{DynamicResource HyperlinkCommand}" CommandParameter="mailto:poroh.kun@gmail.com">poroh.kun@gmail.com</Hyperlink><LineBreak/>
+                                </TextBlock>
+                            </Grid>
+                            <TextBlock DockPanel.Dock="Top" Text="Valheim Mjöð cannot be used without these libraries:" />
+                            <ItemsControl DockPanel.Dock="Top" Width="500" HorizontalAlignment="Left">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" Margin="0,8">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding Icon}" Visibility="{Binding ShowIcon}" MaxWidth="60" MaxHeight="60"/>
+                                                <TextBlock Margin="10,0">
+                                                    <Run FontSize="16" Text="{Binding Name}" FontWeight="Bold"/><LineBreak/>
+                                                    <Run Text="by "/><Run Text="{Binding Authors}"/><LineBreak/>
+                                                    <Hyperlink Command="{DynamicResource HyperlinkCommand}" CommandParameter="{Binding Site}">Website</Hyperlink>
+                                                    <Hyperlink Command="{DynamicResource HyperlinkCommand}" CommandParameter="{Binding License}">License</Hyperlink>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                                <local:LibData Name="Extended WPF Toolkit™"
+                                               Authors="Xceed"
+                                               Site="https://github.com/xceedsoftware/wpftoolkit"
+                                               License="https://raw.githubusercontent.com/xceedsoftware/wpftoolkit/master/license.md"
+                                               Icon="https://api.nuget.org/v3-flatcontainer/extended.wpf.toolkit/4.0.2/icon"/>
+
+                                <local:LibData Name="Microsoft.Xaml.Behaviors.Wpf"
+                                               Authors="Microsoft"
+                                               Site="https://github.com/Microsoft/XamlBehaviorsWpf"
+                                               License="https://raw.githubusercontent.com/microsoft/XamlBehaviorsWpf/master/LICENSE"
+                                               Icon="https://api.nuget.org/v3-flatcontainer/microsoft.xaml.behaviors.wpf/1.1.31/icon"/>
+
+                                <local:LibData Name="Newtonsoft.Json"
+                                               Authors="James Newton-King"
+                                               Site="https://www.newtonsoft.com/json"
+                                               License="https://raw.githubusercontent.com/JamesNK/Newtonsoft.Json/master/LICENSE.md"
+                                               Icon="https://api.nuget.org/v3-flatcontainer/newtonsoft.json/12.0.3/icon"/>
+
+                                <local:LibData Name="Squirrel.Windows"
+                                               Authors="GitHub"
+                                               Site="https://github.com/squirrel/Squirrel.Windows"
+                                               License="https://raw.githubusercontent.com/Squirrel/Squirrel.Windows/develop/COPYING"
+                                               Icon="https://api.nuget.org/v3-flatcontainer/squirrel.windows/2.0.1/icon"/>
+                            </ItemsControl>
+                        </DockPanel>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+
     </Grid>
 </Window>

@@ -124,11 +124,13 @@
     </ApplicationDefinition>
     <Compile Include="CharacterViewModel.cs" />
     <None Include="ValheimMjod.nuspec" />
+    <Compile Include="Commands\HyperlinkCommand.cs" />
+    <Compile Include="Commands\InjectableCommand.cs" />
     <Compile Include="Converters\StringCamelCaseConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\Vector3ToColorConverter.cs" />
     <Compile Include="Converters\Vector3ToBrushConverter.cs" />
-    <Compile Include="DelegateCommand.cs" />
+    <Compile Include="Misc\DelegateCommand.cs" />
     <Compile Include="MainWindowViewModel.EditingItem.cs" />
     <Compile Include="Misc\AutoSelect.cs" />
     <Compile Include="Misc\BindableBase.cs" />
@@ -136,6 +138,8 @@
     <Compile Include="Misc\ICommand.cs" />
     <Compile Include="Misc\InjectableCommand.cs" />
     <Compile Include="Misc\LabelAttacher.cs" />
+    <Compile Include="Misc\LibData.cs" />
+    <Compile Include="Misc\MarginSetter.cs" />
     <Compile Include="Misc\PlayFab.cs" />
     <Compile Include="Misc\TypeExtensions.cs" />
     <Compile Include="Props\Prop.cs" />
@@ -216,9 +220,7 @@
   <ItemGroup>
     <Resource Include="header.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="whatsnew.txt" />
   </ItemGroup>
