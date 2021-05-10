@@ -16,6 +16,8 @@ namespace ValheimMjod
             _updater = new Updater();
             base.OnStartup(e);
 
+            PlayFab.LoginUser();
+
             if (Settings.Instance.Main.FirstLaunch)
             {
                 Settings.Instance.Main.FirstLaunch = false;
