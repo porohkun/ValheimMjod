@@ -30,6 +30,9 @@
         <c:HyperlinkCommand x:Key="HyperlinkCommand"/>
         <s:Boolean x:Key="True">True</s:Boolean>
         <s:Boolean x:Key="False">False</s:Boolean>
+        <s:Int32 x:Key="Int0">0</s:Int32>
+        <s:Int32 x:Key="Int100">100</s:Int32>
+        <s:Int32 x:Key="Int9001">9001</s:Int32>
         <local:PropTemplateSelector x:Key="PropTemplateSelector">
             <local:PropTemplateSelector.Templates>
 
@@ -55,7 +58,12 @@
                 </DataTemplate>
 
                 <DataTemplate x:Key="SkillProp" DataType="{x:Type local:Prop}">
-                    <wpfc:IntUpDown Value="{Binding Value}" MinValue="0" MaxValue="100" Height="18" MinWidth="64" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
+                    <StackPanel Orientation="Horizontal">
+                        <wpfc:IntUpDown Value="{Binding Value}" MinValue="0" Height="18" MinWidth="64" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
+                        <Button Content="Set to 0" Command="{Binding SetValueCommand}" CommandParameter="{StaticResource Int0}" Margin="4,0,2,0"/>
+                        <Button Content="Set to 100" Command="{Binding SetValueCommand}" CommandParameter="{StaticResource Int100}" Margin="2,0"/>
+                        <Button Content="Over 9000" Command="{Binding SetValueCommand}" CommandParameter="{StaticResource Int9001}" Margin="2,0"/>
+                    </StackPanel>
                 </DataTemplate>
 
                 <DataTemplate x:Key="ItemProp" DataType="{x:Type local:Prop}">
@@ -107,7 +115,7 @@
                                         <Run Text="{Binding Value[quality].Value, StringFormat=#{0}}"/>
                                     </TextBlock>
                                 </Border>
-                                <DockPanel DockPanel.Dock="Bottom" LastChildFill="True">
+                                <DockPanel DockPanel.Dock="Bottom" LastChildFill="True" Margin="0,2,0,0">
                                     <Button Content="Edit" DockPanel.Dock="Left"
                                             Command="{Binding DataContext.EditItemCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                             CommandParameter="{Binding}"/>
@@ -240,7 +248,13 @@
                                         <ItemsControl ItemsSource="{Binding MainProps}" Style="{StaticResource PropsListStyle}"/>
                                     </GroupBox>
                                     <!-- Skills -->
-                                    <GroupBox Header="Skills">
+                                    <GroupBox>
+                                        <GroupBox.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Skills"/>
+                                                <!--<Button Content="Create missing" Margin="8,0,0,0" Command="{Binding CreateMissingSkillsCommand}"/>-->
+                                            </StackPanel>
+                                        </GroupBox.Header>
                                         <ItemsControl ItemsSource="{Binding SkillsProps}" Style="{StaticResource PropsListStyle}"/>
                                     </GroupBox>
                                 </StackPanel>

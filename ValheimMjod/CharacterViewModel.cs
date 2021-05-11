@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Data;
 using UnityEngine;
 using Valheim;
 
@@ -89,10 +89,14 @@ namespace ValheimMjod
         public ObservableCollection<Prop> VisualProps { get; protected set; }
         public ObservableCollection<Prop> ItemsProps { get; protected set; }
 
+        public DelegateCommand CreateMissingSkillsCommand { get; }
+
         public CharacterViewModel(Player player, PlayerProfile profile)
         {
             Player = player;
             Profile = profile;
+
+            CreateMissingSkillsCommand = new DelegateCommand(CreateMissingSkills);
 
             MainProps = new ObservableCollection<Prop>()
             {
@@ -128,18 +132,18 @@ namespace ValheimMjod
                 i.m_gridPos.x, i.m_gridPos.y)));
         }
 
-        void RefreshItemsProps()
+        public void CreateMissingSkills()
         {
-            CollectionViewSource.GetDefaultView(ItemsProps).Refresh();
-        }
-
-        static int StringToInt(object value, int defaultValue)
-        {
-            if (value is int intValue)
-                return intValue;
-            if (!(value is string stringValue))
-                return defaultValue;
-            return int.TryParse(stringValue, out int result) ? result : defaultValue;
+            foreach (Skills.SkillType skillType in Enum.GetValues(typeof(Skills.SkillType)))
+                if (skillType != Skills.SkillType.None && skillType != Skills.SkillType.All)
+                    if (!Player.Skills.SkillData.ContainsKey(skillType))
+                    {
+                        var skill = new Skills.Skill(null);
+                        Player.Skills.SkillData.Add(skillType, skill);
+                        SkillsProps.Add(new Prop<int>(skillType.ToString(), "SkillProp",
+                            () => (int)skill.m_level,
+                            v => skill.m_level = v));
+                    }
         }
     }
 }
