@@ -145,7 +145,7 @@
     <Compile Include="Misc\TypeExtensions.cs" />
     <Compile Include="Props\Prop.cs" />
     <Compile Include="Props\PropTemplateSelector.cs" />
-    <Compile Include="Props\PropWithPosition.cs" />
+    <Compile Include="Props\InventoryProp.cs" />
     <Compile Include="Props\PropWithSelection.cs" />
     <Compile Include="Settings\MainSettings.cs" />
     <Compile Include="Settings\MainWindowSettings.cs" />
