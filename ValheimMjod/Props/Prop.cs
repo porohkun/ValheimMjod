@@ -7,6 +7,8 @@ namespace ValheimMjod
         public string Label { get; }
         public string Template { get; }
 
+        public abstract object ObjectValue { get; set; }
+
         protected Prop(string label, string template)
         {
             Label = label;
@@ -21,13 +23,20 @@ namespace ValheimMjod
     {
         public T Value
         {
-            get => _getValue.Invoke();
+            get => InvokeWithExtensions(_getValue);
             set
             {
                 _setValue?.Invoke(value);
                 RaisePropertyChanged();
             }
         }
+
+        public override object ObjectValue
+        {
+            get => GetValue<T>();
+            set => SetValue<T>((T)value);
+        }
+
         private Func<T> _getValue;
         private Action<T> _setValue;
 
@@ -39,6 +48,11 @@ namespace ValheimMjod
             _setValue = setValue;
 
             SetValueCommand = new DelegateCommand<T>(SetValue);
+        }
+
+        protected virtual T InvokeWithExtensions(Func<T> getValue)
+        {
+            return getValue.Invoke();
         }
 
         public override T2 GetValue<T2>()
