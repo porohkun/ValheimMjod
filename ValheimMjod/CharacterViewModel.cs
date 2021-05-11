@@ -105,7 +105,9 @@ namespace ValheimMjod
             VisualProps = new ObservableCollection<Prop>()
             {
                 new Prop("Skin color", "ColorProp", () => Player.m_skinColor, v => Player.m_skinColor = (Vector3)v),
+                new Prop("Skin glowing", "GlowProp", () => (double)Player.m_skinColorGlow, v => Player.m_skinColorGlow = (float)(double)v),
                 new Prop("Hair color", "ColorProp", () => Player.m_hairColor, v => Player.m_hairColor = (Vector3)v),
+                new Prop("Hair glowing", "GlowProp", () => (double)Player.m_hairColorGlow, v => Player.m_hairColorGlow = (float)(double)v),
                 new PropWithSelection("Hair", "DropDownProp", () => Player.m_hairItem, v => Player.m_hairItem = (string)v, Hairs),
                 new PropWithSelection("Beard", "DropDownProp", () => Player.m_beardItem, v => Player.m_beardItem = (string)v, Beards)
             };

@@ -35,7 +35,9 @@ namespace Valheim
         public string m_beardItem = "";
         public string m_hairItem = "";
         public Vector3 m_skinColor = Vector3.one;
+        public float m_skinColorGlow = 1f;
         public Vector3 m_hairColor = Vector3.one;
+        public float m_hairColorGlow = 1f;
         public int ModelIndex { get; set; }
         public Skills Skills { get; } = new Skills();
         public Inventory m_inventory = new Inventory("Inventory", 8, 4);
@@ -110,17 +112,16 @@ namespace Valheim
 
         public void SetSkinColor(Vector3 color)
         {
-            if (color == this.m_skinColor)
-                return;
-            this.m_skinColor = color;
+            this.m_skinColor = color.magnitude > 1 ? color.normalized : color;
+            this.m_skinColorGlow = Mathf.Max(0f, color.magnitude - 1f);
             //this.m_visEquipment.SetSkinColor(this.m_skinColor);
         }
 
         public void SetHairColor(Vector3 color)
         {
-            if (this.m_hairColor == color)
-                return;
-            this.m_hairColor = color;
+
+            this.m_hairColor = color.magnitude > 1 ? color.normalized : color;
+            this.m_hairColorGlow = Mathf.Max(0f, color.magnitude - 1f);
             //this.m_visEquipment.SetHairColor(this.m_hairColor);
         }
 
@@ -206,8 +207,8 @@ namespace Valheim
             }
             pkg.Write(this.m_beardItem);
             pkg.Write(this.m_hairItem);
-            pkg.Write(this.m_skinColor);
-            pkg.Write(this.m_hairColor);
+            pkg.Write(this.m_skinColor * (m_skinColorGlow + 1));
+            pkg.Write(this.m_hairColor * (m_hairColorGlow + 1));
             pkg.Write(this.ModelIndex);
             pkg.Write(this.m_foods.Count);
             foreach (Player.Food food in this.m_foods)

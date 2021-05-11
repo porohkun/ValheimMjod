@@ -16,7 +16,7 @@ namespace ValheimMjod
         {
             Characters.Add(new CharacterViewModelDummy());
             //EditingItem = Characters[0].ItemsProps[0];
-            AboutWindowVisible = true;
+            //AboutWindowVisible = true;
         }
     }
 
