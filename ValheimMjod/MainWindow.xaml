@@ -162,7 +162,7 @@
                                 <ColumnDefinition Width="8"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding Label}"/>
+                            <TextBlock Grid.Column="0" Text="{Binding Label, Converter={StaticResource StringCamelCaseConverter}}"/>
                             <ContentControl Grid.Column="2" Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
                         </Grid>
                     </DataTemplate>
