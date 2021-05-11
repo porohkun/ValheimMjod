@@ -59,7 +59,14 @@
                 </DataTemplate>
 
                 <DataTemplate x:Key="ItemProp" DataType="{x:Type local:Prop}">
-                    <wpfc:IntUpDown Value="{Binding Value}" MinValue="1" Height="18" MinWidth="64" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
+                        <wpfc:IntUpDown Value="{Binding Value}" MinValue="1" Height="18" MinWidth="64" HorizontalAlignment="Left" HorizontalContentAlignment="Stretch"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="GlowProp" DataType="{x:Type local:Prop}">
+                    <DockPanel LastChildFill="True">
+                        <TextBlock Text="{Binding Value, Converter={StaticResource DoubleToStringConverter}}" DockPanel.Dock="Right"/>
+                    <Slider Value="{Binding Value}" Minimum="0" Maximum="10" Height="18" Margin="0,0,8,0"/>
+                    </DockPanel>
                 </DataTemplate>
 
                 <DataTemplate x:Key="ColorProp" DataType="{x:Type local:Prop}">

@@ -126,6 +126,7 @@
     <None Include="ValheimMjod.nuspec" />
     <Compile Include="Commands\HyperlinkCommand.cs" />
     <Compile Include="Commands\InjectableCommand.cs" />
+    <Compile Include="Converters\DoubleToStringConverter.cs" />
     <Compile Include="Converters\StringCamelCaseConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\Vector3ToColorConverter.cs" />
