@@ -20,6 +20,7 @@
             <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <xctk:VisibilityToBoolConverter Inverted="True" Not="True" x:Key="InvertedBoolToVisibilityConverter"/>
             <local:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+            <local:DoubleToStringConverter x:Key="DoubleToStringConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
