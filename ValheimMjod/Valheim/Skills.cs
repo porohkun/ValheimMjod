@@ -51,7 +51,7 @@ namespace Valheim
 
         private bool IsSkillValid(Skills.SkillType type)
         {
-            return Enum.IsDefined(typeof(Skills.SkillType), (object)type);
+            return type!= SkillType.All&& type!= SkillType.None&& Enum.IsDefined(typeof(Skills.SkillType), (object)type);
         }
 
         private Skills.Skill GetSkill(Skills.SkillType skillType)
