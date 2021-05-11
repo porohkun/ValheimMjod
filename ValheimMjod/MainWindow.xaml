@@ -37,7 +37,7 @@
                     <TextBox Text="{Binding Value}"/>
                 </DataTemplate>
 
-                <DataTemplate x:Key="SwitcherProp" DataType="{x:Type local:PropWithSelection}">
+                <DataTemplate x:Key="SwitcherProp" DataType="{x:Type local:Prop}">
                     <ListBox ItemsSource="{Binding Variants}" SelectedItem="{Binding SelectedVariant}"
                              Background="{StaticResource BgrMainBrush}"
                              BorderThickness="0">
@@ -84,7 +84,7 @@
                     </Border>
                 </DataTemplate>
 
-                <DataTemplate x:Key="DropDownProp" DataType="{x:Type local:PropWithSelection}">
+                <DataTemplate x:Key="DropDownProp" DataType="{x:Type local:Prop}">
                     <ComboBox ItemsSource="{Binding Variants}" SelectedItem="{Binding SelectedVariant}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -94,7 +94,7 @@
                     </ComboBox>
                 </DataTemplate>
 
-                <DataTemplate x:Key="InventoryProp" DataType="{x:Type local:PropWithPosition}">
+                <DataTemplate x:Key="InventoryProp" DataType="{x:Type local:InventoryProp}">
                     <Border BorderBrush="{StaticResource BorderDisabledBrush}" BorderThickness="1" Margin="0,0,-1,-1" Padding="2">
                         <Grid>
                             <DockPanel LastChildFill="True" Visibility="{Binding Value[exists].Value, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -124,11 +124,11 @@
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Orientation="Vertical" Grid.Column="0">
                                         <TextBlock Text="Durab"/>
-                                        <TextBox Text="{Binding Value[durability].Value}"/>
+                                        <TextBox Text="{Binding Durab}"/>
                                     </StackPanel>
                                     <StackPanel Orientation="Vertical" Grid.Column="1">
                                         <TextBlock Text="Count"/>
-                                        <TextBox Text="{Binding Value[stack].Value}"/>
+                                        <TextBox Text="{Binding Count}"/>
                                     </StackPanel>
                                 </Grid>
                                 <Grid/>
@@ -302,7 +302,7 @@
                                             </Style>
                                         </ItemsControl.ItemContainerStyle>
                                         <ItemsControl.ItemTemplate>
-                                            <DataTemplate DataType="{x:Type local:PropWithPosition}">
+                                            <DataTemplate DataType="{x:Type local:Prop}">
                                                 <ContentControl Content="{Binding}" ContentTemplateSelector="{StaticResource PropTemplateSelector}"/>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

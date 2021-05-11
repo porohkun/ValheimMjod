@@ -29,21 +29,21 @@ namespace ValheimMjod
         {
             MainProps = new ObservableCollection<Prop>()
             {
-                new Prop("Change name", "StringProp", () => "MyCharacter", null),
-                new PropWithSelection("Gender", "SwitcherProp", () => 0, null, ("Male", 0), ("Female", 1))
+                new Prop<string>("Change name", "StringProp", () => "MyCharacter", null),
+                new PropWithSelection<int>("Gender", "SwitcherProp", () => 0, null, ("Male", 0), ("Female", 1))
             };
             SkillsProps = new ObservableCollection<Prop>()
             {
-                new Prop("Skill1", "SkillProp", () => 11, null),
-                new Prop("Skill2", "SkillProp", () => 11, null),
-                new Prop("Skill3", "SkillProp", () => 11, null),
+                new Prop<int>("Skill1", "SkillProp", () => 11, null),
+                new Prop<int>("Skill2", "SkillProp", () => 11, null),
+                new Prop<int>("Skill3", "SkillProp", () => 11, null),
             };
         }
     }
 
     public class CharacterViewModel : BindableBase
     {
-        static (string, object)[] Hairs =
+        static (string, string)[] Hairs =
         {
             ("No hair", "HairNone"),
             ("Braided 1", "Hair3"),
@@ -62,7 +62,7 @@ namespace ValheimMjod
             ("Side Swept 3", "Hair14")
         };
 
-        static (string, object)[] Beards =
+        static (string, string)[] Beards =
         {
             ("No beard", "BeardNone"),
             ("Braided 1", "Beard5"),
@@ -96,32 +96,32 @@ namespace ValheimMjod
 
             MainProps = new ObservableCollection<Prop>()
             {
-                new Prop("Character name", "StringProp", () => Profile.GetName(), v => Profile.SetName(v as string)),
-                new PropWithSelection("Gender", "SwitcherProp", () => Player.ModelIndex, v => Player.ModelIndex = (int)v, ("Male", 0), ("Female", 1))
+                new Prop<string>("Character name", "StringProp", () => Profile.GetName(), v => Profile.SetName(v as string)),
+                new PropWithSelection<int>("Gender", "SwitcherProp", () => Player.ModelIndex, v => Player.ModelIndex = v, ("Male", 0), ("Female", 1))
             };
-            SkillsProps = new ObservableCollection<Prop>(Player.Skills.SkillData.Select(s => new Prop(s.Key.ToString(), "SkillProp",
+            SkillsProps = new ObservableCollection<Prop>(Player.Skills.SkillData.Select(s => new Prop<int>(s.Key.ToString(), "SkillProp",
                 () => (int)s.Value.m_level,
-                v => s.Value.m_level = (float)(int)v)));
+                v => s.Value.m_level = v)));
             VisualProps = new ObservableCollection<Prop>()
             {
-                new Prop("Skin color", "ColorProp", () => Player.m_skinColor, v => Player.m_skinColor = (Vector3)v),
-                new Prop("Skin glowing", "GlowProp", () => (double)Player.m_skinColorGlow, v => Player.m_skinColorGlow = (float)(double)v),
-                new Prop("Hair color", "ColorProp", () => Player.m_hairColor, v => Player.m_hairColor = (Vector3)v),
-                new Prop("Hair glowing", "GlowProp", () => (double)Player.m_hairColorGlow, v => Player.m_hairColorGlow = (float)(double)v),
-                new PropWithSelection("Hair", "DropDownProp", () => Player.m_hairItem, v => Player.m_hairItem = (string)v, Hairs),
-                new PropWithSelection("Beard", "DropDownProp", () => Player.m_beardItem, v => Player.m_beardItem = (string)v, Beards)
+                new Prop<Vector3>("Skin color", "ColorProp", () => Player.m_skinColor, v => Player.m_skinColor = v),
+                new Prop<double>("Skin glowing", "GlowProp", () => Player.m_skinColorGlow, v => Player.m_skinColorGlow = (float)v),
+                new Prop<Vector3>("Hair color", "ColorProp", () => Player.m_hairColor, v => Player.m_hairColor = (Vector3)v),
+                new Prop<double>("Hair glowing", "GlowProp", () => Player.m_hairColorGlow, v => Player.m_hairColorGlow = (float)v),
+                new PropWithSelection<string>("Hair", "DropDownProp", () => Player.m_hairItem, v => Player.m_hairItem = (string)v, Hairs),
+                new PropWithSelection<string>("Beard", "DropDownProp", () => Player.m_beardItem, v => Player.m_beardItem = (string)v, Beards)
             };
-            ItemsProps = new ObservableCollection<Prop>(Player.m_inventory.m_inventory.Select(i => new PropWithPosition($"{i.m_gridPos}", "InventoryProp",
+            ItemsProps = new ObservableCollection<Prop>(Player.m_inventory.m_inventory.Select(i => new InventoryProp($"{i.m_gridPos}", "InventoryProp",
                 () =>
                 {
                     var result = new Dictionary<string, Prop>();
-                    result.Add("exists", new Prop("", "", () => !string.IsNullOrWhiteSpace(i.m_name), null));
-                    result.Add("name", new Prop("", "", () => i.m_name, v => { i.m_name = (string)v; RefreshItemsProps(); }));
-                    result.Add("quality", new Prop("Quality", "ItemProp", () => i.m_quality, v => { i.m_quality = StringToInt(v, i.m_quality); RefreshItemsProps(); }));
-                    result.Add("stack", new Prop("Count", "ItemProp", () => i.m_stack, v => { i.m_stack = StringToInt(v, i.m_stack); RefreshItemsProps(); }));
-                    result.Add("durability", new Prop("Durability", "ItemProp", () => (int)i.m_durability, v => { i.m_durability = StringToInt(v, (int)i.m_durability); RefreshItemsProps(); }));
-                    result.Add("crafter_id", new Prop("Crafter ID", "StringProp", () => (int)i.m_crafterID, v => { i.m_crafterID = StringToInt(v, (int)i.m_crafterID); RefreshItemsProps(); }));
-                    result.Add("crafter_name", new Prop("Crafter Name", "StringProp", () => i.m_crafterName, v => { i.m_crafterName = (string)v; RefreshItemsProps(); }));
+                    result.Add("exists", new Prop<bool>("", "", () => !string.IsNullOrWhiteSpace(i.m_name)));
+                    result.Add("name", new Prop<string>("", "", () => i.m_name, v => i.m_name = v));
+                    result.Add("quality", new Prop<int>("Quality", "ItemProp", () => i.m_quality, v => i.m_quality = v));
+                    result.Add("stack", new Prop<int>("Count", "ItemProp", () => i.m_stack, v => i.m_stack = v));
+                    result.Add("durability", new Prop<int>("Durability", "ItemProp", () => (int)i.m_durability, v => i.m_durability = v));
+                    result.Add("crafter_id", new Prop<string>("Crafter ID", "StringProp", () => i.m_crafterID.ToString(), v => i.m_crafterID = long.TryParse(v, out long r) ? r : i.m_crafterID));
+                    result.Add("crafter_name", new Prop<string>("Crafter Name", "StringProp", () => i.m_crafterName, v => i.m_crafterName = v));
                     return result;
                 },
                 null,

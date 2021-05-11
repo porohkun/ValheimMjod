@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -34,9 +33,9 @@ namespace ValheimMjod
 
         public DelegateCommand LoadedCommand { get; }
         public DelegateCommand<CharacterViewModel> SaveCommand { get; }
-        public DelegateCommand<Prop> EditItemCommand { get; }
+        public DelegateCommand<InventoryProp> EditItemCommand { get; }
         public DelegateCommand EndEditItemCommand { get; }
-        public DelegateCommand<Prop> RemoveItemCommand { get; }
+        public DelegateCommand<InventoryProp> RemoveItemCommand { get; }
         public DelegateCommand ChangeItemCommand { get; }
         public DelegateCommand EndChangeItemCommand { get; }
         public DelegateCommand<bool> ShowAboutCommand { get; }
@@ -45,9 +44,9 @@ namespace ValheimMjod
         {
             LoadedCommand = new DelegateCommand(Loaded);
             SaveCommand = new DelegateCommand<CharacterViewModel>(Save, CanSave);
-            EditItemCommand = new DelegateCommand<Prop>(EditItem);
+            EditItemCommand = new DelegateCommand<InventoryProp>(EditItem);
             EndEditItemCommand = new DelegateCommand(EndEditItem);
-            RemoveItemCommand = new DelegateCommand<Prop>(RemoveItem);
+            RemoveItemCommand = new DelegateCommand<InventoryProp>(RemoveItem);
             ChangeItemCommand = new DelegateCommand(ChangeItem);
             EndChangeItemCommand = new DelegateCommand(EndChangeItem);
             ShowAboutCommand = new DelegateCommand<bool>(ShowAbout);
@@ -90,7 +89,7 @@ namespace ValheimMjod
             model.Profile.Save();
         }
 
-        private void EditItem(Prop item)
+        private void EditItem(InventoryProp item)
         {
             EditingItem = item;
             if (EditingItemName == null)
@@ -103,10 +102,9 @@ namespace ValheimMjod
             SelectedItem = null;
         }
 
-        private void RemoveItem(Prop item)
+        private void RemoveItem(InventoryProp item)
         {
-            var props = (Dictionary<string, Prop>)item.Value;
-            props["name"].Value = null;
+            item?.Value["name"].SetValue<string>(null);
         }
 
         private void ShowAbout(bool show)

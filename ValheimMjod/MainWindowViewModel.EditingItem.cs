@@ -834,8 +834,8 @@ namespace ValheimMjod
             }),
         };
 
-        private Prop _editingItem = null;
-        public Prop EditingItem
+        private InventoryProp _editingItem = null;
+        public InventoryProp EditingItem
         {
             get => _editingItem;
             set
@@ -848,7 +848,7 @@ namespace ValheimMjod
             }
         }
 
-        public string EditingItemName => (EditingItem?.Value as Dictionary<string, Prop>)?["name"].Value as string ?? null;
+        public string EditingItemName => EditingItem?.Value["name"].GetValue<string>() ?? null;
 
 
         public Prop[] OtherEditingItemProps
@@ -898,23 +898,21 @@ namespace ValheimMjod
 
         private void ChangeItem()
         {
-            var props = (Dictionary<string, Prop>)EditingItem.Value;
-            var name = props["name"].Value as string;
+            var name = EditingItem.Value["name"].GetValue<string>();
             SelectedCategory = _itemsWithCategories.FirstOrDefault(c => c.Item2.Contains(name))?.Item1 ?? null;
             SelectedItem = name ?? "";
         }
 
         private void EndChangeItem()
         {
-            var props = (Dictionary<string, Prop>)EditingItem.Value;
-            props["name"].Value = SelectedItem;
+            EditingItem.Value["name"].SetValue(SelectedItem);
             SelectedItem = null;
             if (EditingItemName != null)
             {
-                props["quality"].Value = 1;
-                props["stack"].Value = 1;
-                props["durability"].Value = 1;
-                props["crafter_name"].Value = "Cheater";
+                EditingItem.Value["quality"].SetValue(1);
+                EditingItem.Value["stack"].SetValue(1);
+                EditingItem.Value["durability"].SetValue(1);
+                EditingItem.Value["crafter_name"].SetValue("Cheater");
             }
             RaisePropertyChanged(nameof(EditingItemName));
             RaisePropertyChanged(nameof(OtherEditingItemProps));
