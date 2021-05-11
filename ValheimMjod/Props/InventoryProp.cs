@@ -38,6 +38,7 @@ namespace ValheimMjod
         {
             RaisePropertyChanged(nameof(Value));
             RaisePropertyChanged(nameof(Durab));
+            RaisePropertyChanged(nameof(Count));
         }
     }
 }
