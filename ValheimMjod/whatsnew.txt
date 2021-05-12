@@ -1,4 +1,13 @@
 ﻿
+  Whats new in version 0.6.0:
+
+- Rearrange items categories, removed obviously incorrect items
+- Possibility to set skills > 100
+- Performance optimization
+- Hair and skin glowing feature
+
+===============================================
+
   Whats new in version 0.5.0:
 
 - Adding new items to inventory and removing exists
@@ -8,7 +17,7 @@
 
 ===============================================
 
-  Whats new in version 0.5.0:
+  Whats new in version 0.4.0:
 
 - Loading and saving characters data
 - Modifying skills values
