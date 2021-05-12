@@ -12,21 +12,21 @@ Download [last version](https://github.com/porohkun/ValheimMjod/releases/downloa
 ### - Rename character
 ### - Change gender
 ### - Visual modifications:
-want bearded woman? or maybe mysterious glowing?
+Want bearded woman? Or maybe mysterious glowing?
 
 ![Demo](docs/bearded.png) ![Demo](docs/glowing.gif)
 
 ### - Skills!
-running on 'Run' skill 1000/100:
+Running on 'Run' skill 1000/100:
 
 ![Demo](docs/run.gif)
 
-jumping on 'Jump' skill 1000/100:
+Jumping on 'Jump' skill 1000/100:
 
 ![Demo](docs/jump.gif)
 
 ### - Inventory full access
-psst, want sword of your dreams?
+Psst, want a sword of your dreams?
 
 ![Demo](docs/weapon.png)
 
