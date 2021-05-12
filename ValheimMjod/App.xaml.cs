@@ -18,9 +18,9 @@ namespace ValheimMjod
 
             PlayFab.LoginUser();
 
-            if (Settings.Instance.Main.FirstLaunch)
+            if (Settings.Instance.Main.LastLaunchedVersion < Settings.Version)
             {
-                Settings.Instance.Main.FirstLaunch = false;
+                Settings.Instance.Main.LastLaunchedVersion = Settings.Version;
                 Process fileopener = new Process();
                 fileopener.StartInfo.FileName = "explorer";
                 fileopener.StartInfo.Arguments = "\"" + Settings.AppPath + "whatsnew.txt\"";

@@ -125,6 +125,7 @@ namespace ValheimMjod
                     TypeNameHandling = TypeNameHandling.Auto,
                     Formatting = Formatting.Indented
                 };
+                _serializer.Converters.Add(VersionConverter.Default);
             }
             return _serializer;
         }
