@@ -151,6 +151,7 @@
     <Compile Include="Settings\MainWindowSettings.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Settings\SettingsPartWithNotifier.cs" />
+    <Compile Include="Settings\VersionConverter.cs" />
     <Compile Include="Settings\WindowStateSettings.cs" />
     <Compile Include="UnityEngine\Mathf.cs" />
     <Compile Include="UnityEngine\Quaternion.cs" />
@@ -223,7 +224,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="whatsnew.txt" />
+    <None Include="whatsnew.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="..\WPF.MyFlatTheme\WPF.MyFlatTheme.projitems" Label="Shared" />
   <Import Project="..\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown\WPF.Controls.IntUpDown.projitems" Label="Shared" />

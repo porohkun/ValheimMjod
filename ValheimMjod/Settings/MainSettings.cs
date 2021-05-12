@@ -1,20 +1,21 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace ValheimMjod
 {
     public class MainSettings : SettingsPartWithNotifier
     {
-        [JsonProperty(nameof(FirstLaunch))]
-        private bool _firstLaunch = true;
+        [JsonProperty(nameof(LastLaunchedVersion))]
+        private Version _lastLaunchedVersion ;
 
         [JsonProperty(nameof(UserId))]
         private string _userId = null;
 
         [JsonIgnore]
-        public bool FirstLaunch
+        public Version LastLaunchedVersion
         {
-            get => _firstLaunch;
-            set => SetProperty(ref _firstLaunch, value);
+            get => _lastLaunchedVersion;
+            set => SetProperty(ref _lastLaunchedVersion, value);
         }
 
         [JsonIgnore]
