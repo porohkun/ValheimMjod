@@ -1,5 +1,5 @@
 ﻿
-  Whats new in version 0.6.3:
+  Whats new in version 0.6.4:
 
 - Stability update
 
