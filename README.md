@@ -7,7 +7,7 @@ This is not a mod, this is only character editor - will work with local game or 
 [![Total Downloads](https://img.shields.io/github/downloads/porohkun/ValheimMjod/total.svg?style=flat-square)](https://github.com/porohkun/ValheimMjod/releases)
 [![License](https://img.shields.io/github/license/porohkun/ValheimMjod.svg?style=flat-square)](https://github.com/porohkun/ValheimMjod/blob/master/LICENSE)
 
-Download [last version](https://github.com/porohkun/ValheimMjod/releases/download/v0.6.0/ValheimMjod-0.6.0-Setup.exe)
+Download [last version](https://github.com/porohkun/ValheimMjod/releases/download/v0.6.1/ValheimMjod-0.6.1-Setup.exe)
 ## Features
 ### - Rename character
 ### - Change gender
