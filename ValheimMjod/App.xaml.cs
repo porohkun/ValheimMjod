@@ -25,7 +25,7 @@ namespace ValheimMjod
                 ["version"] = Settings.Version.ToString()
             });
 
-            MessageBox.Show("Sending message about it to author", "The application is crashed");
+            MessageBox.Show("This crash will be automatically sended to author", "The application is crashed");
         }
 
         Updater _updater;
