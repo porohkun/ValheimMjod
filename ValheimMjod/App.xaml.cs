@@ -45,7 +45,7 @@ namespace ValheimMjod
 
             PlayFab.LoginUser();
 
-            if (Settings.Instance.Main.LastLaunchedVersion < Settings.Version)
+            if (Settings.Instance.Main.LastLaunchedVersion == null || Settings.Instance.Main.LastLaunchedVersion < Settings.Version)
             {
                 Settings.Instance.Main.LastLaunchedVersion = Settings.Version;
                 Process fileopener = new Process();
