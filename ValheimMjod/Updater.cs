@@ -75,7 +75,7 @@ namespace ValheimMjod
                     }
                     finally
                     {
-                        Application.Current.Shutdown();
+                        Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
                     }
                 }
             }

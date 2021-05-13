@@ -58,7 +58,8 @@ namespace ValheimMjod
             if (!Directory.Exists(dir))
             {
                 MessageBox.Show($"Directory '{dir}' containing character information not found.", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-                Application.Current.Shutdown();
+                Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
+                return;
             }
 
             Characters.AddRange(Directory.GetFiles(dir, "*.fch").Select(file =>
@@ -74,7 +75,7 @@ namespace ValheimMjod
             if (Characters.Count == 0)
             {
                 MessageBox.Show($"No character data files found in '{dir}'.", "ERROR");
-                Application.Current.Shutdown();
+                Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
             }
         }
 
