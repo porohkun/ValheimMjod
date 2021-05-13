@@ -481,6 +481,12 @@
                                                License="https://raw.githubusercontent.com/JamesNK/Newtonsoft.Json/master/LICENSE.md"
                                                Icon="https://api.nuget.org/v3-flatcontainer/newtonsoft.json/12.0.3/icon"/>
 
+                                <local:LibData Name="Rollbar"
+                                               Authors="Andrey Kornich (Wide Spectrum Computing LLC)"
+                                               Site="https://github.com/rollbar/Rollbar.NET"
+                                               License="https://licenses.nuget.org/MIT"
+                                               Icon="https://api.nuget.org/v3-flatcontainer/rollbar/4.0.3/icon"/>
+
                                 <local:LibData Name="Squirrel.Windows"
                                                Authors="GitHub"
                                                Site="https://github.com/squirrel/Squirrel.Windows"

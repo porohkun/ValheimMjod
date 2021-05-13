@@ -1,4 +1,10 @@
 ﻿
+  Whats new in version 0.6.1:
+
+- Automatic exception handing and reporting
+
+===============================================
+
   Whats new in version 0.6.0:
 
 - Rearrange items categories, removed obviously incorrect items
