@@ -54,28 +54,28 @@ namespace ValheimMjod
                     if (!mgr.IsInstalledApp) //not installed during Squirrel, skipping update
                         return;
 
-                    try
+                    var installedVersion = mgr.CurrentlyInstalledVersion();
+                    var entry = await mgr.UpdateApp();
+                    if (entry != null && (installedVersion == null || entry.Version > installedVersion))
                     {
-                        var installedVersion = mgr.CurrentlyInstalledVersion();
-                        var entry = await mgr.UpdateApp();
-                        if (entry != null && (installedVersion == null || entry.Version > installedVersion))
+                        if (MessageBox.Show("You need to restart app for apply changes.\r\n\r\nRestart now?", "Valheim Mjöð have been updated", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                         {
-                            if (MessageBox.Show("You need to restart app for apply changes.\r\n\r\nRestart now?", "Valheim Mjöð have been updated", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            try
                             {
                                 var location = Application.ResourceAssembly.Location;
                                 var filename = Path.GetFileName(location);
                                 var fullPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(location), "..", filename));
                                 System.Diagnostics.Process.Start(fullPath);
                             }
+                            catch (Exception e)
+                            {
+                                throw e;
+                            }
+                            finally
+                            {
+                                Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
+                            }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        throw e;
-                    }
-                    finally
-                    {
-                        Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
                     }
                 }
             }
