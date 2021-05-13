@@ -1,5 +1,7 @@
-﻿using Squirrel;
+﻿using Rollbar;
+using Squirrel;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows;
@@ -64,23 +66,25 @@ namespace ValheimMjod
                                 var filename = Path.GetFileName(location);
                                 var fullPath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(location), "..", filename));
                                 System.Diagnostics.Process.Start(fullPath);
-                                Application.Current.Shutdown();
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception e)
                     {
-                        var errorMessage = $"{ex.Message}\r\n\r\n{ex.StackTrace}\r\n\r\nCopy error message to clipboard?";
-                        if (MessageBox.Show(errorMessage, "Error in update/install process", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                            Clipboard.SetText(errorMessage);
+                        throw e;
+                    }
+                    finally
+                    {
+                        Application.Current.Shutdown();
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                var errorMessage = $"{ex.Message}\r\n\r\n{ex.StackTrace}\r\n\r\nCopy error message to clipboard?";
-                if (MessageBox.Show(errorMessage, "Error before update/install process", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                    Clipboard.SetText(errorMessage);
+                RollbarLocator.RollbarInstance.Error(e, new Dictionary<string, object>()
+                {
+                    ["version"] = Settings.Version.ToString()
+                });
             }
         }
     }
