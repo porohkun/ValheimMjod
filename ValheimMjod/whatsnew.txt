@@ -1,4 +1,10 @@
 ﻿
+  Whats new in version 0.6.2:
+
+- Some fast hotfixes
+
+===============================================
+
   Whats new in version 0.6.1:
 
 - Automatic exception handing and reporting
